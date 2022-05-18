@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    /* background-color: aqua; */
+height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 20px */
+}
+
+.login_form {
+    border: 1px solid rgb(110, 109, 109);
+    display: inline-block;
+    width: 25rem;
+    /* height: 15rem; */
+    padding: 15px;
+}
+
+.registration_form {
+    border: 1px solid rgb(110, 109, 109);
+    display: inline-block;
+    width: 25rem;
+    /* height: 20rem; */
+    padding: 15px;
+}
+
+/* .inputs {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+} */
+input[type=email] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=password] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.btn_container_one {
+    display: flex;
+    justify-content: space-between;
+}
+
+.newUser {
+    border: none;
+    background-color: white;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+
+}
+
+.logIn {
+    padding: 5px;
+    letter-spacing: 1px;
+    background-color: rgb(46, 206, 46);
+    color: white;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.logIn:hover {
+    opacity: .6;
+    color: black;
+}
+
+
+.btn_container_two {
+    display: flex;
+    justify-content: space-between;
+}
+
+.exist {
+    border: none;
+    background-color: white;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+
+}
+
+.Register {
+    padding: 5px;
+    letter-spacing: 1px;
+    background-color: rgb(46, 206, 46);
+    color: white;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.Register:hover {
+    opacity: .6;
+    color: black;
+}
+p {
+    color: red;
+  }
