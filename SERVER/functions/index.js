@@ -19,14 +19,13 @@ exports.register = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     const { email, password, userName } = req.body;
     try {
-      await admin.auth().createUser({ email, password });
-      await db.collection("users").add({
+      const user = await admin.auth().createUser({ email, password });
+      console.log(user);
+      await db.doc(`users/${user.uid}`).set({
         email,
-        password,
         userName,
         createdAt: new Date(),
       });
-      await admin.auth().createCustomToken();
       res
         .status(200)
         .send({ message: "User registration successfully", status: true });
@@ -37,4 +36,3 @@ exports.register = functions.https.onRequest(async (req, res) => {
     }
   });
 });
-
