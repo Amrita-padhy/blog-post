@@ -20,6 +20,7 @@
   height: auto;
   padding: 25px;
   margin-bottom: 10px;
+  border-radius: .6rem;
 }
 
 .registration_form {
@@ -29,7 +30,26 @@
   height: auto;
   padding: 25px;
   margin-bottom: 10px;
+  border-radius: .6rem;
+
 }
+
+.Forget_Password_form {
+    border: 1px solid rgb(110, 109, 109);
+    display: inline-block;
+    width: 27rem;
+    height: auto;
+    padding: 25px;
+    margin-bottom: 10px;
+    text-align: center;
+  border-radius: .6rem;
+
+  }
+  .Forget_Password_form > h3 {
+      color:  rgb(0, 153, 255);
+      margin-bottom: 10px;
+  }
+
 .showError {
   text-align: center;
   margin-bottom: 20px !important;
@@ -52,6 +72,13 @@
   cursor: pointer;
   margin-top: 10px !important;
 }
+
+.send {
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px !important;
+    border-radius: .5rem;
+  }
 
 .btn_container_two {
   display: flex;

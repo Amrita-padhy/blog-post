@@ -118,7 +118,7 @@ const Loginpage = () => {
 
         <div className="btn_container_one">
             <Link to="/registration">Do not have an account</Link>
-            <Link to="/registration">Forget Password</Link>
+            <Link to="/Forget-Password">Forget Password</Link>
         </div>
       </form>
     </div>
