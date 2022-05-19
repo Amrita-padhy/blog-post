@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
+// import Visibility from '@mui/icons-material/Visibility';
+// import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const Loginpage = () => {
   const initialvalue = {
     email: "",
@@ -80,33 +84,41 @@ const Loginpage = () => {
         <pre>{JSON.stringify(inputValues, undefined, 2)}</pre>
       )} */}
       <form className="login_form" onSubmit={handleSubmit}>
+       
         <div className="inputs">
           <p>{formErrors.email}</p>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            placeholder="Email"
+          <TextField 
+          fullWidth
+          margin="dense"
+          type={"email"}
+           label="Email"
+            variant="outlined"
             name="email"
             value={inputValues.email}
-            onChange={handleChange}
-          />
+            onChange={handleChange} 
 
-          <p>{formErrors.password}</p>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
+            />
+            <p>{formErrors.password}</p>
+            <TextField 
+                      fullWidth
+                      margin="dense"
+            type={"password"}
+           label="password"
+            variant="outlined"
             name="password"
             value={inputValues.password}
-            onChange={handleChange}
-          />
+            onChange={handleChange} 
+
+            />
+            
         </div>
+        <Button className="logIn"
+        variant="contained">logIn</Button>
+          {/* <button className="logIn">Log In</button> */}
 
         <div className="btn_container_one">
-          <button className="newUser">
-            <Link to="/registration">New User?</Link>
-          </button>
-          <button className="logIn">Log In</button>
+            <Link to="/registration">Do not have an account</Link>
+            <Link to="/registration">Forget Password</Link>
         </div>
       </form>
     </div>
