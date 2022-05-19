@@ -1,38 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
 
+import axios from "axios";
 // import "./App.css";
 
 const Regpage = () => {
+  const navigate = useNavigate();
   const initialvalue = {
-    username: "",
+    userName: "",
     email: "",
     password: "",
   };
 
   const [inputValues, setInputValue] = useState(initialvalue);
   const [formErrors, setFormErrors] = useState({});
-  
+  const [error, setError] = useState("");
+
   // function
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      setFormErrors(validate(inputValues));
-      if (inputValues.email.length && inputValues.password.length && inputValues.username.length) {
-        let usersList = [];
-        if (localStorage.getItem("usersList")) {
-          usersList = JSON.parse(localStorage.getItem("usersList")); // if users list exist then store the users list
-        }
-        usersList.push(inputValues); // push the current user to the exist users array .
-        localStorage.setItem("usersList", JSON.stringify(usersList)); // save the users list with the new uesr in local storage
-        setInputValue(initialvalue); // once form saved succefully clear the input values. 
-      }
-    };
-  
-  
-    
-  
- 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormErrors(validate(inputValues));
+    const { data } = await axios.post(
+      "https://us-central1-react-demo-e1d88.cloudfunctions.net/register",
+      inputValues
+    );
+    console.log(data);
+    if (data.status) {
+      navigate("/login");
+    } else {
+      setError(data.message);
+    }
+    // if (inputValues.email.length && inputValues.password.length && inputValues.userName.length) {
+    //   let usersList = [];
+    //   if (localStorage.getItem("usersList")) {
+    //     usersList = JSON.parse(localStorage.getItem("usersList")); // if users list exist then store the users list
+    //   }
+    //   usersList.push(inputValues); // push the current user to the exist users array .
+    //   localStorage.setItem("usersList", JSON.stringify(usersList)); // save the users list with the new uesr in local storage
+    //   setInputValue(initialvalue); // once form saved succefully clear the input values.
+    // }
+  };
+
   // useEfect
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +55,7 @@ const Regpage = () => {
     if (e.target.type === "text") {
       setFormErrors({
         ...formErrors,
-        username: null,
+        userName: null,
       });
     }
   };
@@ -51,8 +63,8 @@ const Regpage = () => {
   const validate = (values) => {
     const errors = {};
     const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (!values.username) {
-      errors.username = "username is required!";
+    if (!values.userName) {
+      errors.userName = "userName is required!";
     }
     if (!values.email) {
       errors.email = "Email is required!";
@@ -70,47 +82,65 @@ const Regpage = () => {
   };
 
   return (
-    <div className="main">
-      <form className="registration_form" onSubmit={handleSubmit}>
-        {/* Register page */}
-        <div className="inputs">
-          <p> {formErrors.username} </p>
-          <label htmlFor="username"> User Name </label>
-          <input
-            type="text"
-            placeholder="User Name"
-            name="username"
-            value={inputValues.username}
-            onChange={handleChange}
-          />
-          <p> {formErrors.email} </p> <label htmlFor="email"> Email </label>
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={inputValues.email}
-            onChange={handleChange}
-          />
-          <p> {formErrors.password} </p>
-          <label htmlFor="password"> Password </label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={inputValues.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="btn_container_two">
-          <button className="exist">
-            <Link to="/login">Exist User </Link>
-          </button>
-          <button className="Register" type="submit">
+    <>
+      
+      <div className="main">
+        <form className="registration_form" onSubmit={handleSubmit}>
+          {/* Register page */}
+          <div className="inputs">
+          {error && (
+        <Alert className="showError" variant="outlined" severity="error">
+          {error}
+        </Alert>
+      )}
+            <p> {formErrors.userName} </p>
+            <TextField
+              fullWidth
+              margin="dense"
+              type={"text"}
+              label="User Name"
+              variant="outlined"
+              name="userName"
+              value={inputValues.userName}
+              onChange={handleChange}
+            />
+
+            <p> {formErrors.email} </p>
+            <TextField
+              fullWidth
+              margin="dense"
+              type={"email"}
+              label="Email"
+              variant="outlined"
+              name="email"
+              value={inputValues.email}
+              onChange={handleChange}
+            />
+
+            <p> {formErrors.password} </p>
+            <TextField
+              fullWidth
+              margin="dense"
+              type={"password"}
+              label="password"
+              variant="outlined"
+              name="password"
+              value={inputValues.password}
+              onChange={handleChange}
+            />
+          </div>
+          <Button className="Register" type="submit" variant="contained">
             Register
-          </button>
-        </div>
-      </form>
-    </div>
+          </Button>
+
+          <div className="btn_container_two">
+            <button className="exist">
+              <Link to="/login">Exist User </Link>
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

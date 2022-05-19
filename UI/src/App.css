@@ -1,130 +1,104 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .main {
-    /* background-color: aqua; */
-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* padding: 20px */
+  /* background-color: aqua; */
+  height: 100vh;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  /* padding: 20px */
 }
 
 .login_form {
-    border: 1px solid rgb(110, 109, 109);
-    display: inline-block;
-    width: 25rem;
-    /* height: 15rem; */
-    padding: 15px;
+  border: 1px solid rgb(110, 109, 109);
+  display: inline-block;
+  width: 27rem;
+  height: auto;
+  padding: 25px;
+  margin-bottom: 10px;
+  border-radius: .6rem;
 }
 
 .registration_form {
+  border: 1px solid rgb(110, 109, 109);
+  display: inline-block;
+  width: 27rem;
+  height: auto;
+  padding: 25px;
+  margin-bottom: 10px;
+  border-radius: .6rem;
+
+}
+
+.Forget_Password_form {
     border: 1px solid rgb(110, 109, 109);
     display: inline-block;
-    width: 25rem;
-    /* height: 20rem; */
-    padding: 15px;
-}
+    width: 27rem;
+    height: auto;
+    padding: 25px;
+    margin-bottom: 10px;
+    text-align: center;
+  border-radius: .6rem;
 
-/* .inputs {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-} */
-input[type=email] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
-}
+  }
+  .Forget_Password_form > h3 {
+      color:  rgb(0, 153, 255);
+      margin-bottom: 10px;
+  }
 
-input[type=password] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
+.showError {
+  text-align: center;
+  margin-bottom: 20px !important;
 }
-
-input[type=text] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
-}
-
 .btn_container_one {
-    display: flex;
-    justify-content: space-between;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .newUser {
-    border: none;
-    background-color: white;
-    letter-spacing: 1px;
-    cursor: pointer;
-
-
+  border: none;
+  background-color: white;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
 .logIn {
-    padding: 5px;
-    letter-spacing: 1px;
-    background-color: rgb(46, 206, 46);
-    color: white;
-    border: none;
-    border-radius: .5rem;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px !important;
+}
+
+.send {
+    width: 100%;
     cursor: pointer;
-    text-decoration: none !important;
-}
-
-.logIn:hover {
-    opacity: .6;
-    color: black;
-}
-
+    margin-top: 10px !important;
+    border-radius: .5rem;
+  }
 
 .btn_container_two {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .exist {
-    border: none;
-    background-color: white;
-    letter-spacing: 1px;
-    cursor: pointer;
-
-
+  border: none;
+  background-color: white;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
 .Register {
-    padding: 5px;
-    letter-spacing: 1px;
-    background-color: rgb(46, 206, 46);
-    color: white;
-    border: none;
-    border-radius: .5rem;
-    cursor: pointer;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px !important ; 
 }
 
-.Register:hover {
-    opacity: .6;
-    color: black;
-}
 p {
-    color: red;
-  }
+  color: red;
+}
