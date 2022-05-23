@@ -10,11 +10,8 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
-// import Stack from '@mui/material/Stack';
 
 const Navbar = () => {
   const Search = styled("div")(({ theme }) => ({
@@ -67,7 +64,7 @@ const Navbar = () => {
           component="div"
           sx={{ display: { xs: "none", sm: "block" } }}
         >
-          MUI
+          Blog Post
         </Typography>
         <Search>
           <SearchIconWrapper>
@@ -76,6 +73,7 @@ const Navbar = () => {
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
+            // backgroundColor={Error}
           />
         </Search>
         <Box sx={{ flexGrow: 1 }} />
@@ -105,46 +103,5 @@ const Navbar = () => {
         </Box>
       </Toolbar>
     </AppBar>
-  </Box>
-    // <nav className="navbar">
-    //   <div className="nav-container-one">
-
-    //     <Search className="search-bar">
-    //       <SearchIconWrapper>
-    //         <SearchIcon />
-    //       </SearchIconWrapper>
-    //       <StyledInputBase
-    //         placeholder="Search…"
-    //         inputProps={{ "aria-label": "search" }}
-    //       />
-    //     </Search>
-
-    //     <Box sx={{ display: { xs: "none", md: "flex" } }}>
-    //       <IconButton
-    //         size="large"
-    //         aria-label="show 17 new notifications"
-    //         color="inherit"
-    //       >
-    //         <Badge badgeContent={17} color="error">
-    //           <NotificationsIcon />
-    //         </Badge>
-    //       </IconButton>
-
-    //       <IconButton
-    //         size="large"
-    //         edge="end"
-    //         aria-label="account of current user"
-    //         aria-haspopup="true"
-    //         color="inherit"
-    //       >
-    //         <AccountCircle />
-    //       </IconButton>
-    //     </Box>
-    //   </div>
-    // </nav>
-    //  <NotificationsIcon/>
-    //  <AccountCircleIcon/>
-  );
-};
-
+  </Box>)}
 export default Navbar;
