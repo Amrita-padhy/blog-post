@@ -2,7 +2,14 @@
   margin: 0;
   padding: 0;
 }
-
+.nav-container-one{
+  display: flex;
+  align-items: center;
+}
+.search-bar{
+  flex: 1;
+  width: 60px;
+}
 .main {
   /* background-color: aqua; */
   height: 100vh;
@@ -101,4 +108,20 @@
 
 p {
   color: red;
+}
+/* navbar component */
+.navbar {
+  width: 100vw;
+  height: 90px;
+  background-color: rgb(126, 125, 125);
+}
+
+.search_input {
+  width: 476px;
+  height: 61px;
+}
+
+.body_content {
+  margin: 30px;
+  
 }
