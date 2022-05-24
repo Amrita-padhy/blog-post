@@ -42,6 +42,7 @@ const Navbar = () => {
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",
+    
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
@@ -52,6 +53,8 @@ const Navbar = () => {
         width: "20ch",
       },
     },
+   
+    
   }));
 
   return (
@@ -73,7 +76,7 @@ const Navbar = () => {
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
-            // backgroundColor={Error}
+            
           />
         </Search>
         <Box sx={{ flexGrow: 1 }} />
