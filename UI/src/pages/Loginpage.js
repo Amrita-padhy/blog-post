@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
+import {login} from '../util/firebase'
 // import Visibility from '@mui/icons-material/Visibility';
 // import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const Loginpage = () => {
@@ -16,30 +17,32 @@ const Loginpage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
 
   // functions
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors(validate(inputValues));
     setIsSubmit(true);
 
-    //
-    const usersDetails = JSON.parse(localStorage.getItem("usersList"));
-    // console.log(usersDetails);
+await login(inputValues)
 
-    const user = usersDetails.filter((user) => {
-      if (
-        user.email === inputValues.email &&
-        user.password === inputValues.password
-      ) {
-        return user;
-      }
-    });
-    console.log(user);
-    if (user.length) {
-        navigate('/home')
-    }else{
-        alert("User Invalid")
+    //
+    // const usersDetails = JSON.parse(localStorage.getItem("usersList"));
+    // // console.log(usersDetails);
+
+    // const user = usersDetails.filter((user) => {
+    //   if (
+    //     user.email === inputValues.email &&
+    //     user.password === inputValues.password
+    //   ) {
+    //     return user;
+    //   }
+    // });
+    // console.log(user);
+    // if (user.length) {
+    //     navigate('/home')
+    // }else{
+    //     alert("User Invalid")
         
-    }
+    // }
   };
   // useEfect
   useEffect(() => {
@@ -112,7 +115,7 @@ const Loginpage = () => {
             />
             
         </div>
-        <Button className="logIn"
+        <Button type="sumbit" className="logIn"
         variant="contained">logIn</Button>
           {/* <button className="logIn">Log In</button> */}
 

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBrHC_yghDNy7TptRJ_ADD6bL8A2FbvAb8",
   authDomain: "react-demo-e1d88.firebaseapp.com",
@@ -14,15 +15,18 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export const login = async (data) => {
-  const { user } = await signInWithEmailAndPassword(
-    auth,
-    data.email,
-    data.password
-  );
-  console.log(user);
-  if (user.uid) {
-    return true;
-  } else {
-    return false;
+  try {
+    
+    const { user } = await signInWithEmailAndPassword(
+      auth,
+      data.email,
+      data.password
+    );
+    console.log(user);
+    if (user) {
+    } 
+  } catch (error) {
+    alert(error.message)
   }
+  console.log(data);
 };

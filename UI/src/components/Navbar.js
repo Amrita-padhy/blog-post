@@ -12,7 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
-
+import {Link} from 'react-router-dom'
 const Navbar = () => {
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -83,7 +83,8 @@ const Navbar = () => {
         <Box sx={{ display: { xs: "none", md: "flex" } }}>
         <Button color="inherit"
         variant="contained">
-          Create Post
+          <Link to="/create-post">Create Post </Link>
+          
         </Button>
           <IconButton
             size="large"

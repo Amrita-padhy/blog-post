@@ -6,6 +6,7 @@ import Loginpage from './pages/Loginpage.js';
 import Regpage from './pages/Regpage';
 import Home from './pages/HomePage';
 import ForgetPassword from './pages/ForgetPassword';
+import CreatePost from './pages/CreatePost';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/registration' element={<Regpage />}></Route>
         <Route path='/home' element={<Home />}></Route>
         <Route path='/forget-password' element={<ForgetPassword />}></Route>
+        <Route path='/create-post' element={<CreatePost />}></Route>
 
       </Routes>
     </BrowserRouter>
