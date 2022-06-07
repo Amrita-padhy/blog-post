@@ -8,7 +8,9 @@ const Home = () => {
     return (
         <div>
             {/* nav bar */}
-            <Navbar />
+     <Navbar />
+
+           
             <div className="layOut">
                 {/* side bar */}
                 <Sidebar/>

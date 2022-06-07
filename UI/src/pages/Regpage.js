@@ -3,97 +3,63 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
-
-import axios from "axios";
-// import "./App.css";
+import GoogleIcon from "@mui/icons-material/Google";
+import { useAuth } from "../contextPage/Context";
 
 const Regpage = () => {
+  const { register,signInWithGoogle } = useAuth();
   const navigate = useNavigate();
-  const initialvalue = {
-    userName: "",
-    email: "",
-    password: "",
-  };
-
-  const [inputValues, setInputValue] = useState(initialvalue);
-  const [formErrors, setFormErrors] = useState({});
-  const [error, setError] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSubmit, setIsSubmit] = useState(false);
 
   // function
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e)=>{
     e.preventDefault();
-    setFormErrors(validate(inputValues));
-    const { data } = await axios.post(
-      "https://us-central1-react-demo-e1d88.cloudfunctions.net/register",
-      inputValues
-    );
-    console.log(data);
-    if (data.status) {
-      navigate("/login");
-    } else {
-      setError(data.message);
+    
+    try{
+      setIsSubmit(true);
+      register(email, password)
+      .then ((user)=>{
+        if (user) {
+          console.log(user);
+          navigate("/")
+        }
+      } )
+     } catch (error) {
+      console.log(error.message)
+     }
+  }       
+    // 
+    // signUpWithGoogle
+  function signUpWithGoogle() {
+    signInWithGoogle() 
+    try {
+      
+    } catch (error) {
+      console.log(error.message);
     }
-    // if (inputValues.email.length && inputValues.password.length && inputValues.userName.length) {
-    //   let usersList = [];
-    //   if (localStorage.getItem("usersList")) {
-    //     usersList = JSON.parse(localStorage.getItem("usersList")); // if users list exist then store the users list
-    //   }
-    //   usersList.push(inputValues); // push the current user to the exist users array .
-    //   localStorage.setItem("usersList", JSON.stringify(usersList)); // save the users list with the new uesr in local storage
-    //   setInputValue(initialvalue); // once form saved succefully clear the input values.
-    // }
-  };
+    
+  }
+  
 
-  // useEfect
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValues,
-      [name]: value,
-    });
-    if (e.target.type === "text") {
-      setFormErrors({
-        ...formErrors,
-        userName: null,
-      });
-    }
-  };
 
-  const validate = (values) => {
-    const errors = {};
-    const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (!values.userName) {
-      errors.userName = "userName is required!";
-    }
-    if (!values.email) {
-      errors.email = "Email is required!";
-    } else if (!emailFormat.test(values.email)) {
-      errors.email = "You have entered an invalid email address!";
-    }
-    if (!values.password) {
-      errors.password = "password is required!";
-    } else if (values.password.length < 4) {
-      errors.password = "password must be more than 4 characters!";
-    } else if (values.password.length > 10) {
-      errors.password = "password can not be more than 10 characters!";
-    }
-    return errors;
-  };
+   
 
   return (
     <>
-      
       <div className="main">
-        <form className="registration_form" onSubmit={handleSubmit}>
+        <form
+          className="registration_form"
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
           {/* Register page */}
+          <h2>Registration page</h2>
           <div className="inputs">
-          {error && (
-        <Alert className="showError" variant="outlined" severity="error">
-          {error}
-        </Alert>
-      )}
-            <p> {formErrors.userName} </p>
             <TextField
               fullWidth
               margin="dense"
@@ -101,11 +67,10 @@ const Regpage = () => {
               label="User Name"
               variant="outlined"
               name="userName"
-              value={inputValues.userName}
-              onChange={handleChange}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
             />
 
-            <p> {formErrors.email} </p>
             <TextField
               fullWidth
               margin="dense"
@@ -113,11 +78,10 @@ const Regpage = () => {
               label="Email"
               variant="outlined"
               name="email"
-              value={inputValues.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
-            <p> {formErrors.password} </p>
             <TextField
               fullWidth
               margin="dense"
@@ -125,12 +89,23 @@ const Regpage = () => {
               label="password"
               variant="outlined"
               name="password"
-              value={inputValues.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Button className="Register" type="submit" variant="contained">
             Register
+          </Button>
+          <Button
+            fullWidth
+            margin="dense"
+            type="sumbit"
+            className="googleLogin"
+            startIcon={<GoogleIcon />}
+            variant="contained"
+            onClick={signUpWithGoogle}
+          >
+            Sign In with Google
           </Button>
 
           <div className="btn_container_two">

@@ -1,25 +1,14 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import AppRoute from './AppRoute';
+import AuthContextProvider from './contextPage/Context'
 
-import Loginpage from './pages/Loginpage.js';
-import Regpage from './pages/Regpage';
-import Home from './pages/HomePage';
-import ForgetPassword from './pages/ForgetPassword';
-import CreatePost from './pages/CreatePost';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route  path='/login' element={<Loginpage />}></Route>
-        <Route path='/registration' element={<Regpage />}></Route>
-        <Route path='/home' element={<Home />}></Route>
-        <Route path='/forget-password' element={<ForgetPassword />}></Route>
-        <Route path='/create-post' element={<CreatePost />}></Route>
-
-      </Routes>
-    </BrowserRouter>
+    <AuthContextProvider>
+    <AppRoute/>
+  </AuthContextProvider>
   );
 }
 

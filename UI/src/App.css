@@ -19,7 +19,10 @@
   align-items: center;
   /* padding: 20px */
 }
-
+form > h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
 .login_form {
   border: 1px solid rgb(110, 109, 109);
   display: inline-block;
@@ -65,6 +68,7 @@
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .newUser {
@@ -104,6 +108,7 @@
   width: 100%;
   cursor: pointer;
   margin-top: 10px !important ; 
+  margin-bottom: 10px !important;
 }
 
 p {
@@ -135,22 +140,23 @@ p {
 
 .cards {
   display: block;
+  margin-top: 60px;
 }
 
 .blog_posts {
 width: 625px;
 height: 145px;
 border: 1px solid #b9afaf;
-margin-top: 60px;
 display: flex;
 justify-content: start;
 padding: 12px 15px;
 margin-left: 30px;
+margin-bottom: 20px;
 }
 .posts_icon{
   width: 45px;
   height: 43px;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   text-align: center;
   margin: 3px;
 }
@@ -217,7 +223,7 @@ margin-top:80px ;
   align-items: center;
   /* margin-left: .3rem;  */
 }
-.like-comments {
+/* .like-comments {
   width: 58px;
 height: 12px;
 font-style: normal;
@@ -233,7 +239,7 @@ display: flex;
 .like-comments > span {
 margin-left:5px;
 margin-right:5px;
-}
+} */
 
 .btn > span {
   margin-right:10px ;

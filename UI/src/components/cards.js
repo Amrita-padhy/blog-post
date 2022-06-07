@@ -3,6 +3,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+
 
 
 import Button from "@mui/material/Button";
@@ -12,7 +15,7 @@ const Cards = () => {
     <div className="cards">
     <main className="blog_posts">
       <div className="posts_icon">
-        <HomeIcon fontSize="large" />
+        <PeopleAltIcon fontSize="large" />
       </div>
 
       <div className="posts_details">
@@ -27,29 +30,29 @@ const Cards = () => {
         {/*  */}
         <div className="futter">
           <div className="like-comments">
-          <IconButton
-            size="large"
-            edge="end"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <FavoriteBorderIcon />
-          </IconButton>
-            <span className="like_btn">106likes</span>
-            {/*  */}
-            <IconButton
-            size="large"
-            edge="end"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <ChatBubbleOutlineIcon />
-          </IconButton>
-            <span>77comments</span>
+          {/* <Button variant="outlined" startIcon={<FavoriteBorderIcon />}>
+          likes
+      </Button> */}
+      <Stack direction="row" spacing={2}>
+      <Button 
+      size="small"
+      color="inherit"
+        startIcon={<FavoriteBorderIcon fontSize="inherit" />}>
+       571 likes
+      </Button>
+      <Button 
+       size="small"
+      //  variant="outlined" 
+      color="inherit"
+       startIcon={ <ChatBubbleOutlineIcon fontSize="inherit" />}>
+         568 comments
+        
+      </Button>
+    </Stack>
           </div>
           <div className="btn">
             <span>1 min read</span>
-            <Button variant="outlined" size="small">
+            <Button color="inherit" size="small">
               save
             </Button>
           </div>
