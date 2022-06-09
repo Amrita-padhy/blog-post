@@ -6,6 +6,7 @@ import Regpage from './pages/Regpage';
 import Home from './pages/HomePage';
 import ForgetPassword from './pages/ForgetPassword';
 import CreatePost from './pages/CreatePost';
+import ProfilePage from './pages/ProfilePage.js';
 // import Navbar from './components/Navbar';
 
 function AppRoute() {
@@ -17,6 +18,7 @@ function AppRoute() {
       <Route exact path='/' element={<Home />}></Route>
       <Route path='/forget-password' element={<ForgetPassword />}></Route>
       <Route path='/create-post' element={<CreatePost />}></Route>
+      <Route path='/profile-page' element={< ProfilePage/>}></Route>
 
     </Routes>
   </BrowserRouter>

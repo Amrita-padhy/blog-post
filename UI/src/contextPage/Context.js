@@ -1,5 +1,5 @@
 import React ,{createContext,useContext,useState,useEffect}from 'react'
-import {auth} from '../util/firebase'
+import {fireBaseAuth} from '../util/firebase'
 import {createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -21,23 +21,42 @@ export const useAuth = () => useContext(AuthContext);
 // console.log(useAuth);
 
 export default function AuthContextProvider({children}) {
-  const [currentUser,seturrentUser] = useState(null)
+  const [currentUser,setCurrentUser] = useState(null)
 
 // function
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(fireBaseAuth,user => {
+      console.log(user);
+    setCurrentUser(user)
+  })
+
+  return () => {
+    unsubscribe()
+  }
+}, [])
+
 
 // log in 
 function login(email,Password) {
-  return signInWithEmailAndPassword(auth,email,Password)
+  return signInWithEmailAndPassword(fireBaseAuth,email,Password)
 }
 // register
 function register(email,Password) {
-  return createUserWithEmailAndPassword(auth,email,Password)
+  return createUserWithEmailAndPassword(fireBaseAuth,email,Password)
 }
 // sign in with google
 function signInWithGoogle() {
   const provider =  new GoogleAuthProvider()
-  return signInWithPopup(auth,provider)
+  return signInWithPopup(fireBaseAuth,provider)
 }
+// sign out
+function logout() {
+  return signOut(fireBaseAuth)  
+}
+
+
+
+
  // handle auth related error
  function handleAuthErrorMsg(msg)  {
   switch (msg ) {
@@ -64,7 +83,7 @@ function signInWithGoogle() {
     currentUser,
     register,
     login,
-    // logout,
+    logout,
     signInWithGoogle,
     handleAuthErrorMsg,
   }
