@@ -14,6 +14,7 @@ const AuthContext =  createContext({
   login: () => Promise,
   logout: () => Promise,
   signInWithGoogle: () => Promise,
+  handleAuthErrorMsg:() => Promise,
 })
 
 export const useAuth = () => useContext(AuthContext);
@@ -33,11 +34,29 @@ function register(email,Password) {
   return createUserWithEmailAndPassword(auth,email,Password)
 }
 // sign in with google
-function signInWithGoogle(auth) {
+function signInWithGoogle() {
   const provider =  new GoogleAuthProvider()
   return signInWithPopup(auth,provider)
 }
+ // handle auth related error
+ function handleAuthErrorMsg(msg)  {
+  switch (msg ) {
+    case "Firebase: Error (auth/invalid-email).":
+      return "Check your email or password";
+    case "Firebase: Password should be at least 6 characters (auth/weak-password).":
+      return "Check your Email or password";
+      case "Firebase: Error (auth/user-not-found).":
+        return "Check your Email or password";
+      case "Firebase: Error (auth/wrong-password).":
+        return "Check your Email or password";
+        case "Firebase: Error (auth/email-already-in-use).":
+        return "Email already in use";
 
+        
+    default:
+      break;
+  }
+};
 
 
 
@@ -47,6 +66,7 @@ function signInWithGoogle(auth) {
     login,
     // logout,
     signInWithGoogle,
+    handleAuthErrorMsg,
   }
 
   return   <AuthContext.Provider value={value} >
