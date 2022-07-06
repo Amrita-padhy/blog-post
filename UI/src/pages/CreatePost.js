@@ -1,7 +1,18 @@
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
+import React, { useState, useEffect } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
+import { db } from "../util/firebase";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { useAuth } from "../contextPage/Context";
 import AppBar from "@mui/material/AppBar";
+
+// import  StandardInput from "@mui/material/OutlinedInput";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -10,16 +21,11 @@ import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import Input from "@mui/material/Input";
 import { useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-// import  StandardInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
-import { height } from "@mui/system";
-
-const ariaLabel = { "aria-label": "description" };
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -32,44 +38,66 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-function getStyles(name, personName, theme) {
+const tagNames = [" javascript", "webdev", "beginners", "programming"];
+
+function getStyles(name, tags, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      tags.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 const CreatePost = () => {
   const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
-
+  const { currentUser } = useAuth();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [tags, setTags] = useState([]);
+  // handleChange
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setTags(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
   };
+  // handleInputChange
+  const handleInputChange = (e) => {
+    if (e.target.id === "title_input") {
+      setTitle(e.target.value);
+    }
+    if (e.target.id === "content_input") {
+      setContent(e.target.value);
+    }
+    if (e.target.id === "tag_id") {
+      setTags(e.target.value);
+    }
+  };
+
+  const handlePublish = async (e) => {
+    e.preventDefault();
+    const payload = {
+      content,
+      title,
+      createdAt: new Date(),
+      isPublished: true,
+      tags,
+      uid: currentUser?.uid,
+      coverImage: "some link",
+    };
+    console.log(payload);
+    const res = await addDoc(collection(db, "postList"), payload);
+    console.log(res);
+    setTitle("");
+    setContent("");
+    setTags([]);
+  };
 
   return (
     <>
-      {/* create post */}
-
       {/* navbar section */}
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="transparent">
@@ -101,26 +129,34 @@ const CreatePost = () => {
             className="title_input"
             fullWidth
             placeholder="New post title here"
-            inputProps={ariaLabel}
+            type="text"
+            id="title_input"
+            value={title}
+            onChange={handleInputChange}
           />
           {/*  */}
           <div>
             <FormControl sx={{ m: 1, width: 300 }}>
-              {/* <InputLabel variant="standard" id="demo-multiple-name-label">add upto 4 tags</InputLabel> */}
+              <InputLabel
+                variant="standard"
+                id="tag_id"
+                value={tags}
+                onChange={handleInputChange}
+              >
+                add tags
+              </InputLabel>
 
               <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
                 multiple
-                value={personName}
+                value={tags}
                 onChange={handleChange}
                 MenuProps={MenuProps}
               >
-                {names.map((name) => (
+                {tagNames.map((name) => (
                   <MenuItem
                     key={name}
                     value={name}
-                    style={getStyles(name, personName, theme)}
+                    style={getStyles(name, tags, theme)}
                   >
                     {name}
                   </MenuItem>
@@ -129,7 +165,7 @@ const CreatePost = () => {
             </FormControl>
           </div>
         </div>
-        <div className="createPost_btns"></div>
+
         <div className="fotter">
           <TextareaAutosize
             fullWidth
@@ -137,13 +173,18 @@ const CreatePost = () => {
             minRows={3}
             placeholder="Write your post content here..."
             style={{ width: 612, height: 200, border: null }}
+            type="text"
+            id="content_input"
+            value={content}
+            onChange={handleInputChange}
           />
         </div>
       </div>
       {/* fotter button sec */}
       <div className="fotter_btns">
-        <Button variant="outlined" color="primary">
-          <Link to="/">publish</Link>
+        <Button variant="outlined" color="primary" onClick={handlePublish}>
+          publish
+          {/* <Link to="/">publish</Link> */}
         </Button>
         <Button variant="outlined" color="primary">
           save draft

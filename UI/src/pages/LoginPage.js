@@ -10,7 +10,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-const Loginpage = () => {
+const LoginPage = () => {
   const { login, signInWithGoogle,handleAuthErrorMsg } = useAuth();
   const navigate = useNavigate();
 
@@ -151,4 +151,4 @@ const Loginpage = () => {
     </div>
   );
 };
-export default Loginpage;
+export default LoginPage;

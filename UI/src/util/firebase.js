@@ -1,5 +1,12 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  initializeApp
+} from "firebase/app";
+import {
+  getAuth
+} from "firebase/auth";
+import {
+  getFirestore
+} from "firebase/firestore"
 const firebaseConfig = {
   apiKey: "AIzaSyBrHC_yghDNy7TptRJ_ADD6bL8A2FbvAb8",
   authDomain: "react-demo-e1d88.firebaseapp.com",
@@ -11,5 +18,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
- const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 export const fireBaseAuth = getAuth(app);
+const db = getFirestore(app)
+
+// console.log(db);
+export {
+  db
+}
