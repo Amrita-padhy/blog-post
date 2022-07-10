@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-
 import { Link, useNavigate } from "react-router-dom";
+import { fireBaseAuth, storage } from "../util/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db } from "../util/firebase";
 import {
   collection,
@@ -11,8 +12,6 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "../contextPage/Context";
 import AppBar from "@mui/material/AppBar";
-
-// import  StandardInput from "@mui/material/OutlinedInput";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -26,6 +25,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,10 +51,18 @@ function getStyles(name, tags, theme) {
 }
 const CreatePost = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageLists, setImageLists] = useState([]);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+
+  const handleBackdropClose = () => {
+    setOpenBackdrop(false);
+  };
   // handleChange
   const handleChange = (event) => {
     const {
@@ -76,28 +85,66 @@ const CreatePost = () => {
       setTags(e.target.value);
     }
   };
-
+  // handlepublish
   const handlePublish = async (e) => {
-    e.preventDefault();
-    const payload = {
-      content,
-      title,
-      createdAt: new Date(),
-      isPublished: true,
-      tags,
-      uid: currentUser?.uid,
-      coverImage: "some link",
-    };
-    console.log(payload);
-    const res = await addDoc(collection(db, "postList"), payload);
-    console.log(res);
-    setTitle("");
-    setContent("");
-    setTags([]);
+    try {
+      e.preventDefault();
+      // open loading
+      setOpenBackdrop(true);
+      const payload = {
+        content,
+        title,
+        createdAt: new Date(),
+        isPublished: true,
+        tags,
+        uid: currentUser?.uid,
+        coverImage: await uplodeImage(),
+      };
+      // console.log(payload);
+      const res = await addDoc(collection(db, "postList"), payload);
+
+      setTitle("");
+      setContent("");
+      setTags([]);
+      // close loading
+      setOpenBackdrop(false);
+      // navigate to home page
+      navigate("/");
+    } catch (error) {
+      // close loading
+      setOpenBackdrop(false);
+    }
+  };
+  // uplodeImage
+  const uplodeImage = async () => {
+    try {
+      if (imageUpload == null) return null;
+      const imageRef = ref(
+        storage,
+        `images/${fireBaseAuth.currentUser.uid}/${imageUpload.name}`
+      );
+      const uploadRef = await uploadBytes(imageRef, imageUpload);
+      const url = await getDownloadURL(uploadRef.ref);
+      return url;
+    } catch (error) {
+      // close loading
+      setOpenBackdrop(false);
+    }
   };
 
   return (
     <>
+      {/* loader */}
+      <div className="backDrop">
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+          onClick={handleBackdropClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+
       {/* navbar section */}
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="transparent">
@@ -122,9 +169,22 @@ const CreatePost = () => {
 
       <div className="create_Post_Body">
         <div className="header">
-          <Button variant="outlined" color="primary">
-            add a cover image
-          </Button>
+          {" "}
+          <div className="uplodeImage">
+            <label className="uplodeImageLevel" onClick={uplodeImage}>
+              Add a cover image
+              <input
+                type="file"
+                onChange={(e) => {
+                  setImageUpload(e.target.files[0]);
+                }}
+                hidden
+              />
+            </label>
+          </div>
+          {imageLists.map((url) => {
+            return <img src={url} />;
+          })}
           <Input
             className="title_input"
             fullWidth

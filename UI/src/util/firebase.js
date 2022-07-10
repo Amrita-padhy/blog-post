@@ -7,6 +7,10 @@ import {
 import {
   getFirestore
 } from "firebase/firestore"
+
+import {
+  getStorage
+} from "firebase/storage"
 const firebaseConfig = {
   apiKey: "AIzaSyBrHC_yghDNy7TptRJ_ADD6bL8A2FbvAb8",
   authDomain: "react-demo-e1d88.firebaseapp.com",
@@ -26,3 +30,5 @@ const db = getFirestore(app)
 export {
   db
 }
+export const storage = getStorage(app)
+console.log(storage);

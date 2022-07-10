@@ -35,7 +35,7 @@ export default function AuthContextProvider({ children }) {
   // function
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(fireBaseAuth, (user) => {
-      console.log(user.uid);
+      // console.log(user.uid);
       setCurrentUser(user);
     });
 
