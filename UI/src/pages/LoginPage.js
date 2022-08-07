@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
 const LoginPage = () => {
-  const { login, signInWithGoogle,handleAuthErrorMsg } = useAuth();
+  const { login, signInWithGoogle, handleAuthErrorMsg } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -21,8 +21,8 @@ const LoginPage = () => {
   const [snackbarErrorMsg, setSnackbarErrorMsg] = useState(false);
   const [state, setState] = React.useState({
     open: false,
-    vertical: 'top',
-    horizontal: 'center',
+    vertical: "top",
+    horizontal: "center",
   });
   const { vertical, horizontal, open } = state;
 
@@ -43,7 +43,6 @@ const LoginPage = () => {
     }
   };
 
- 
   // signUpWithGoogle
   const googleSignin = async () => {
     try {
@@ -81,7 +80,6 @@ const LoginPage = () => {
       </IconButton>
     </React.Fragment>
   );
-
 
   return (
     <div className="main">

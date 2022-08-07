@@ -1,31 +1,71 @@
 import React from "react";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 
+const Root = styled("div")(({ theme }) => ({
+  width: "100%",
+  ...theme.typography.body2,
+  "& > :not(style) + :not(style)": {
+    marginTop: theme.spacing(2),
+  },
+}));
+const Adds = () => {
+  const content = (
+    <div>
+      {`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id dignissim justo.
+   Nulla ut facilisis ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+   Sed malesuada lobortis pretium.`}
+    </div>
+  );
 
-const Adds = ()=> {
-return (
-    <main className="adds_container">
-       <div className="img_container">
-       </div>
-       <div className="adds_heading">
-           Forem for Android is here 
-           </div>
-           <div className="adds_details">
-               <div className="add_header">
-                   <h4>Listings</h4>
-                   <div className="see_all_btn"></div>
-                   <Button variant="text" color="secondary"
-                    size="small">See all</Button>
-               </div>
-               <div className="add_details">
-               Help need for low code freamwork open source.
-               </div>
+  return (
+    <>
+      <main className="adds_container">
+        <div className="add_header">
+          <Card sx={{ maxWidth: 345 }}>
+            <CardMedia
+              className="img_container"
+              width="240"
+              component="img"
+              height="140"
+              image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+              // alt="green iguana"
+            />
+            <CardContent>
+              <Typography variant="h6" className="adds_heading" component="div">
+                Forem for Android is here
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="add_contents">
+          <div className="add_contents_btns">
+            <Typography sx={{ padding: 0.1 }} variant="h6" component="div">
+              Listings
+            </Typography>
+            <button className="see_all">see all</button>
+          </div>
+          <div className="add_contents_headings">
+            <Root>
+              {content}
+              <Divider textAlign="left">LEFT</Divider>
+              {content}
+              <Divider textAlign="left">LEFT</Divider>
+              {content}
+              <Divider textAlign="left">LEFT</Divider>
+            </Root>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+};
 
-
-           </div>
-
-    </main>
-)
-}
-
-export default Adds
+export default Adds;

@@ -5,54 +5,97 @@ import { Link, useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Stack from "@mui/material/Stack";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import Button from "@mui/material/Button";
-const Cards = () => {
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import CardHeader from "@mui/material/CardHeader";
+import Avatar from "@mui/material/Avatar";
+import { grey } from "@mui/material/colors";
+import Skeleton from "@mui/material/Skeleton";
+
+const Cards = ({ title, tag, image, postId }) => {
+  const navigate = useNavigate();
+  const openDetailPage = (item) => {
+    console.log(postId);
+    navigate(`/details-page/${postId}`);
+  };
   return (
     <>
-      <div className="cards">
-        <main className="blog_posts">
-          <div className="posts_icon">
-            <PeopleAltIcon fontSize="large" />
-          </div>
-          <div className="posts_details">
-            <h3> jhon doe </h3> <h5> may 23(3 hours) </h5>{" "}
-            <h2> Lorem, ipsum dolor sit amet consectetur adipisicing. </h2>{" "}
-            <div className="tags">
-              <span className="tag-1"> #Dev </span>{" "}
-              <span className="tag-2"> #Career </span>{" "}
-              <span className="tag-3"> #Help </span>{" "}
-            </div>{" "}
-            {/*  */}{" "}
-            <div className="futter">
-              <div className="like-comments">
-                <Stack direction="row" spacing={2}>
+      <div className="card_container">
+        <Card sx={{ maxWidth: 625 }} onClick={openDetailPage}>
+          <div className="cardWithImage">
+            {image ? (
+              <CardMedia
+                component="img"
+                height="250"
+                img
+                src={image}
+                alt="coverImage"
+              />
+            ) : null}
+
+            <CardHeader
+              avatar={<Avatar aria-label="recipe">R</Avatar>}
+              title="Shrimp and Chorizo Paella"
+              subheader="September 14, 2016"
+            />
+            <div className="card_body">
+              <CardContent>
+                <Typography
+                  color="text.primary"
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                >
+                  {title}
+                </Typography>
+                <div>
+                  {tag.map((eachTag) => (
+                    <button color="inherit" className="tag-1">
+                      #{eachTag}
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+              <div className="card_fotter">
+                <div className="like_comment">
                   <Button
                     size="small"
                     color="inherit"
                     startIcon={<FavoriteBorderIcon fontSize="inherit" />}
                   >
-                    571 likes{" "}
-                  </Button>{" "}
+                    571 reactions
+                  </Button>
                   <Button
                     size="small"
                     color="inherit"
                     startIcon={<ChatBubbleOutlineIcon fontSize="inherit" />}
                   >
-                    568 comments{" "}
-                  </Button>{" "}
-                </Stack>{" "}
-              </div>{" "}
-              <div className="btn">
-                <span> 1 min read </span>{" "}
-                <Button color="inherit" size="small">
-                  save{" "}
-                </Button>{" "}
-              </div>{" "}
-            </div>{" "}
-          </div>{" "}
-        </main>{" "}
-      </div>{" "}
+                    5 comments
+                  </Button>
+                </div>
+
+                <div className="btn">
+                  <span> 1 min read </span>
+                  <Button
+                    sx={{ bgcolor: grey[300] }}
+                    color="inherit"
+                    size="medium"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`create-post/${postId}`);
+                    }}
+                  >
+                    edit
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
     </>
   );
 };

@@ -5,43 +5,86 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import HomeIcon from '@mui/icons-material/Home';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import Badge from '@mui/material/Badge';
-import { Box } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PodcastsIcon from "@mui/icons-material/Podcasts";
+import TagIcon from "@mui/icons-material/Tag";
+import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
+import InfoIcon from "@mui/icons-material/Info";
+import Badge from "@mui/material/Badge";
+import Divider from "@mui/material/Divider";
 
 const Sidebar = () => {
+  const style = {
+    width: "100%",
+    maxWidth: 360,
+    bgcolor: "#faf6f6",
+    height: "auto",
+  };
   return (
-    <Box className="sidebar_container" sx={{ width: '100%',
-     maxWidth: 
-    220, 
-    height:20,
-     bgcolor: 'background.paper'
-    }}>
-        
-    <List >
-      <ListItem  className="sideBar_content">
-        <ListItemButton>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home"color="" />
-        </ListItemButton>
-      </ListItem>
-      {/*  */}
-      <ListItem className="sideBar_content">
-        <ListItemButton>
-          <ListItemIcon>
-            <AutoStoriesIcon />
-            <Badge badgeContent={8} color="error">
-              
-            </Badge>
-          </ListItemIcon>
-          <ListItemText primary="Reading List" />
-        </ListItemButton>
-      </ListItem>
-    </List>
-    </Box>
+    <>
+      <div className="side_bar">
+        <List sx={style} component="nav" aria-label="mailbox folders">
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <HomeIcon />
+              </span>
+              Home
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <AutoStoriesIcon />
+              </span>
+              Reading List
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <NoteAddIcon />
+              </span>
+              Listings
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <PodcastsIcon />
+              </span>
+              Podcasts
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <VideoCameraFrontIcon />
+              </span>
+              Videos
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <TagIcon />
+              </span>
+              Tags
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <InfoIcon />
+              </span>
+              About
+            </a>
+          </ListItem>
+        </List>
+      </div>
+    </>
   );
 };
 export default Sidebar;

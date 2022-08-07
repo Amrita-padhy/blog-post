@@ -1,32 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fireBaseAuth, storage } from "../util/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db } from "../util/firebase";
-import {
-  collection,
-  onSnapshot,
-  doc,
-  addDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { useAuth } from "../contextPage/Context";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import CardContent from "@mui/material/CardContent";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import Input from "@mui/material/Input";
 import { useTheme } from "@mui/material/styles";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Backdrop from "@mui/material/Backdrop";
+import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -49,22 +43,72 @@ function getStyles(name, tags, theme) {
         : theme.typography.fontWeightMedium,
   };
 }
-const CreatePost = () => {
+
+const CreatePost = (props) => {
+  const { postId } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
-  const [imageUpload, setImageUpload] = useState(null);
-  const [imageLists, setImageLists] = useState([]);
+  const [uploadImage, setUploadimage] = useState(null);
+  const [file, setPreviewImage] = useState();
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarErrorMsg, setSnackbarErrorMsg] = useState(false);
+  const [state, setState] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+  // console.log(coverImage);
+  function handlePreviewImage(e) {
+    console.log(e.target.files);
+    setUploadimage(e.target.files[0]);
+    setPreviewImage(URL.createObjectURL(e.target.files[0]));
+  }
+
+  useEffect(() => {
+    console.log(postId ? "Please Edit" : "New Post");
+    if (postId) {
+      (async () => {
+        const docRef = doc(db, "postList", postId);
+        const docSpan = getDoc(docRef);
+        if ((await docSpan).exists()) {
+          // if we get data
+          const postData = (await docSpan).data(); // save data in the variable
+          // console.log(postData);
+          setTitle(postData.title); // set post title
+          setContent(postData.content); //set post content
+          setTags(postData.tags);
+          setPreviewImage(postData.coverImage);
+          setUploadimage(postData.coverImage);
+        }
+      })();
+    }
+  }, []);
+  // handleUpdate
+  // const postData = (await docSpan).data();
+  const handleUpdate = async () => {
+    try {
+      setOpenBackdrop(true);
+      let item = { title, content, tags, uploadImage };
+      const docRef = doc(db, "postList", postId);
+      await setDoc(docRef, { ...item, updatedAt: new Date() }, { merge: true });
+      setOpenBackdrop(false);
+      navigate("/");
+    } catch (error) {
+      setOpenBackdrop(false);
+    }
+  };
 
   const handleBackdropClose = () => {
     setOpenBackdrop(false);
   };
-  // handleChange
-  const handleChange = (event) => {
+  // handleTagChange
+  const handleTagChange = (event) => {
     const {
       target: { value },
     } = event;
@@ -89,6 +133,10 @@ const CreatePost = () => {
   const handlePublish = async (e) => {
     try {
       e.preventDefault();
+      if (!title || !content) {
+        setSnackbarOpen(true);
+        return;
+      }
       // open loading
       setOpenBackdrop(true);
       const payload = {
@@ -99,156 +147,244 @@ const CreatePost = () => {
         tags,
         uid: currentUser?.uid,
         coverImage: await uplodeImage(),
+        updatedAt: new Date(),
       };
-      // console.log(payload);
-      const res = await addDoc(collection(db, "postList"), payload);
-
+      await addDoc(collection(db, "postList"), payload);
       setTitle("");
       setContent("");
       setTags([]);
-      // close loading
       setOpenBackdrop(false);
-      // navigate to home page
       navigate("/");
     } catch (error) {
       // close loading
       setOpenBackdrop(false);
     }
   };
+
   // uplodeImage
   const uplodeImage = async () => {
     try {
-      if (imageUpload == null) return null;
+      if (uploadImage == null) return null;
       const imageRef = ref(
         storage,
-        `images/${fireBaseAuth.currentUser.uid}/${imageUpload.name}`
+        `images/${fireBaseAuth.currentUser.uid}/${uploadImage.name}`
       );
-      const uploadRef = await uploadBytes(imageRef, imageUpload);
+      const uploadRef = await uploadBytes(imageRef, uploadImage);
       const url = await getDownloadURL(uploadRef.ref);
       return url;
     } catch (error) {
-      // close loading
       setOpenBackdrop(false);
     }
   };
+
+  // removeoverImage
+  const removePreviedImage = (e) => {
+    setPreviewImage("");
+    if (postId && uploadImage) {
+      setUploadimage(null);
+    }
+  };
+
+  // snakbar
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="error" size="small" onClick={handleClose}>
+        Please fill all the inputs.
+      </Button>
+      <IconButton size="small" color="inherit" onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+  const pointer = { cursor: "pointer" };
 
   return (
     <>
       {/* loader */}
       <div className="backDrop">
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
           open={openBackdrop}
           onClick={handleBackdropClose}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
       </div>
-
-      {/* navbar section */}
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" color="transparent">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Blog Post
-            </Typography>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <Link to="/home">
-                <CloseIcon />
-              </Link>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </Box>
-
-      <div className="create_Post_Body">
-        <div className="header">
-          {" "}
-          <div className="uplodeImage">
-            <label className="uplodeImageLevel" onClick={uplodeImage}>
-              Add a cover image
-              <input
-                type="file"
-                onChange={(e) => {
-                  setImageUpload(e.target.files[0]);
-                }}
-                hidden
-              />
-            </label>
-          </div>
-          {imageLists.map((url) => {
-            return <img src={url} />;
-          })}
-          <Input
-            className="title_input"
-            fullWidth
-            placeholder="New post title here"
-            type="text"
-            id="title_input"
-            value={title}
-            onChange={handleInputChange}
-          />
-          {/*  */}
-          <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel
-                variant="standard"
-                id="tag_id"
-                value={tags}
-                onChange={handleInputChange}
-              >
-                add tags
-              </InputLabel>
-
-              <Select
-                multiple
-                value={tags}
-                onChange={handleChange}
-                MenuProps={MenuProps}
-              >
-                {tagNames.map((name) => (
-                  <MenuItem
-                    key={name}
-                    value={name}
-                    style={getStyles(name, tags, theme)}
-                  >
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-
-        <div className="fotter">
-          <TextareaAutosize
-            fullWidth
-            aria-label=""
-            minRows={3}
-            placeholder="Write your post content here..."
-            style={{ width: 612, height: 200, border: null }}
-            type="text"
-            id="content_input"
-            value={content}
-            onChange={handleInputChange}
-          />
-        </div>
+      {/* snackbar */}
+      <div>
+        <Snackbar
+          // sx={{ background: "#fff" }}
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message={snackbarErrorMsg}
+          action={action}
+          anchorOrigin={{ vertical, horizontal }}
+          key={vertical + horizontal}
+        />
       </div>
-      {/* fotter button sec */}
-      <div className="fotter_btns">
-        <Button variant="outlined" color="primary" onClick={handlePublish}>
-          publish
-          {/* <Link to="/">publish</Link> */}
-        </Button>
-        <Button variant="outlined" color="primary">
-          save draft
-        </Button>
+      <div className="create_post_main">
+        <Container maxWidth="lg">
+          <div className="header">
+            <div className="imageContainer">
+              <img
+                src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+                alt="blog_post"
+                width={50}
+                onClick={() => navigate("/")}
+                // href="/"
+                style={pointer}
+              />
+              <Typography variant="h6" ml={2}>
+                Create Post
+              </Typography>
+            </div>
+            <div className="colseBtn">
+              <IconButton>
+                <CloseIcon
+                  color="action"
+                  onClick={() => navigate("/")}
+                  sx={{ "&:hover": { color: "blue" } }}
+                />
+              </IconButton>
+            </div>
+          </div>
+        </Container>
+
+        <div className="main_card">
+          <CardContent
+            sx={{
+              maxWidth: 400,
+              p: "4",
+            }}
+          >
+            <div className="previed_main">
+              {file ? (
+                <div className="previewedImage_container">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img src={file} width={150} height={100} />
+
+                    <label className="uplodeImageLevel">
+                      <input type="file" onChange={handlePreviewImage} hidden />
+                      change
+                    </label>
+                    <Button variant="contained" onClick={removePreviedImage}>
+                      remove
+                    </Button>
+                  </Box>
+                </div>
+              ) : (
+                <div className="previewImageBtn">
+                  <label className="uplodeImageLevel" onClick={uplodeImage}>
+                    Add a cover image
+                    <input type="file" onChange={handlePreviewImage} hidden />
+                  </label>
+                </div>
+              )}
+            </div>
+            <Box
+              sx={{
+                width: 400,
+                maxWidth: "100%",
+                // mb: "5",
+              }}
+            >
+              <TextField
+                fullWidth
+                margin="dense"
+                sx={{ fontSize: 200, width: 560, mt: 3 }}
+                variant="standard"
+                placeholder="New post title here..."
+                inputProps={{ style: { fontSize: 40 } }} // font size of input text
+                id="title_input"
+                value={title}
+                onChange={handleInputChange}
+              />
+            </Box>
+            <div>
+              <FormControl variant="outlined" sx={{ width: 500, mt: 3 }}>
+                <Select
+                  multiple
+                  displayEmpty
+                  margin="dense"
+                  labelId="demo-multiple-name-label"
+                  id="demo-multiple-name"
+                  value={tags}
+                  onChange={handleTagChange}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <em>add upto 4 tags</em>;
+                    }
+
+                    return selected.join(", ");
+                  }}
+                  MenuProps={MenuProps}
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem disabled value="">
+                    <em>add upto 4 tags</em>
+                  </MenuItem>
+                  {tagNames.map((name) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                      style={getStyles(name, tags, theme)}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            <Box>
+              <TextareaAutosize
+                maxRows={20}
+                // rows={5}
+                placeholder="Write your post content here..."
+                style={{
+                  width: 560,
+                  overflow: "hidden",
+                  padding: 5,
+                  marginTop: 20,
+                }}
+                id="content_input"
+                value={content}
+                onChange={handleInputChange}
+              />
+            </Box>
+          </CardContent>
+
+          {/* </Container> */}
+        </div>
+        <div className="fotter_btns">
+          <Box ml={3.3}>
+            {postId ? (
+              <Button variant="contained" onClick={handleUpdate}>
+                update
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={handlePublish}>
+                Publish
+              </Button>
+            )}
+          </Box>
+        </div>
       </div>
     </>
   );

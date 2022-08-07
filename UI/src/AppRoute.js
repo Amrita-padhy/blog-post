@@ -7,6 +7,7 @@ import Home from "./pages/HomePage";
 import ForgetPassword from "./pages/ForgetPassword";
 import CreatePost from "./pages/CreatePost";
 import ProfilePage from "./pages/ProfilePage.js";
+import DetailsPage from "./pages/DetailsPage";
 // import Navbar from './components/Navbar';
 
 function AppRoute() {
@@ -18,7 +19,9 @@ function AppRoute() {
         <Route exact path="/" element={<Home />}></Route>
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
         <Route path="/create-post" element={<CreatePost />}></Route>
+        <Route path="/create-post/:postId" element={<CreatePost />}></Route>
         <Route path="/profile-page" element={<ProfilePage />}></Route>
+        <Route path="/details-page/:postId" element={<DetailsPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
