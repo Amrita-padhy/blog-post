@@ -166,7 +166,7 @@ function DetailsPage() {
                   {post?.title}
                 </Typography>
                 {post?.tags.map((eachTag) => (
-                  <button color="inherit" className="tag-1">
+                  <button color="inherit" key={eachTag.id} className="tag-1">
                     #{eachTag}
                   </button>
                 ))}

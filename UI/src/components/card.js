@@ -14,17 +14,29 @@ import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import { grey } from "@mui/material/colors";
 import Skeleton from "@mui/material/Skeleton";
-
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+import Chip from "@mui/material/Chip";
 const Cards = ({ title, tag, image, postId }) => {
+  let [saveBtn, setSaveBtn] = useState(false);
+
   const navigate = useNavigate();
   const openDetailPage = (item) => {
     console.log(postId);
     navigate(`/details-page/${postId}`);
   };
+  // handleBtnTextChange
+  function handleBtnTextChange(e) {
+    e.stopPropagation();
+    // !TODO  save page api call
+    setSaveBtn((saveBtn = !saveBtn));
+  }
+  const pointer = { cursor: "pointer" };
+
   return (
     <>
       <div className="card_container">
-        <Card sx={{ maxWidth: 625 }} onClick={openDetailPage}>
+        <Card sx={{ maxWidth: 625 }} style={pointer} onClick={openDetailPage}>
           <div className="cardWithImage">
             {image ? (
               <CardMedia
@@ -53,7 +65,11 @@ const Cards = ({ title, tag, image, postId }) => {
                 </Typography>
                 <div>
                   {tag.map((eachTag) => (
-                    <button color="inherit" className="tag-1">
+                    <button
+                      variant="outlined"
+                      key={eachTag.id}
+                      className="tag-1"
+                    >
                       #{eachTag}
                     </button>
                   ))}
@@ -78,17 +94,24 @@ const Cards = ({ title, tag, image, postId }) => {
                 </div>
 
                 <div className="btn">
-                  <span> 1 min read </span>
-                  <Button
-                    sx={{ bgcolor: grey[300] }}
-                    color="inherit"
+                  <IconButton
+                    aria-label="edit"
                     size="medium"
+                    sx={{ bgcolor: grey[200] }}
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate(`create-post/${postId}`);
                     }}
                   >
-                    edit
+                    <EditIcon />
+                  </IconButton>
+                  <Button
+                    sx={{ bgcolor: grey[400] }}
+                    color="inherit"
+                    size="medium"
+                    onClick={handleBtnTextChange}
+                  >
+                    {saveBtn ? "Saved" : "Save"}
                   </Button>
                 </div>
               </div>

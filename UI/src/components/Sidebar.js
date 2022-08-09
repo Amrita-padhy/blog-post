@@ -22,9 +22,11 @@ const Sidebar = () => {
     bgcolor: "#faf6f6",
     height: "auto",
   };
+  const pointer = { cursor: "pointer" };
+
   return (
     <>
-      <div className="side_bar">
+      <div className="side_bar" style={pointer}>
         <List sx={style} component="nav" aria-label="mailbox folders">
           <ListItem button>
             <a href="goggle.com" className="sidebar_link">

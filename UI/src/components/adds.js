@@ -24,10 +24,11 @@ const Adds = () => {
    Sed malesuada lobortis pretium.`}
     </div>
   );
+  const pointer = { cursor: "pointer" };
 
   return (
     <>
-      <main className="adds_container">
+      <main className="adds_container" style={pointer}>
         <div className="add_header">
           <Card sx={{ maxWidth: 345 }}>
             <CardMedia
