@@ -234,37 +234,32 @@ const CreatePost = (props) => {
         />
       </div>
       <div className="create_post_main">
-        <Container maxWidth="lg">
-          <div className="header">
-            <div className="imageContainer">
-              <img
-                src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
-                alt="blog_post"
-                width={50}
+        <Container maxWidth="lg" sx={{ display: "flex" }}>
+          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+            <img
+              src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+              alt="blog_post"
+              width={50}
+              onClick={() => navigate("/")}
+            />
+            <Typography variant="h6" ml={2}>
+              Create Post
+            </Typography>
+          </Box>
+          <Box>
+            <IconButton>
+              <CloseIcon
+                color="action"
                 onClick={() => navigate("/")}
-                // href="/"
-                style={pointer}
+                sx={{ "&:hover": { color: "blue" } }}
               />
-              <Typography variant="h6" ml={2}>
-                Create Post
-              </Typography>
-            </div>
-            <div className="colseBtn">
-              <IconButton>
-                <CloseIcon
-                  color="action"
-                  onClick={() => navigate("/")}
-                  sx={{ "&:hover": { color: "blue" } }}
-                />
-              </IconButton>
-            </div>
-          </div>
+            </IconButton>
+          </Box>
         </Container>
 
-        <div className="main_card">
+        <div className="main_card" style={pointer}>
           <CardContent
             sx={{
-              maxWidth: 400,
               p: "4",
             }}
           >
@@ -274,7 +269,7 @@ const CreatePost = (props) => {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      justifyContent: "space-around",
                       alignItems: "center",
                     }}
                   >
@@ -302,13 +297,12 @@ const CreatePost = (props) => {
               sx={{
                 width: 400,
                 maxWidth: "100%",
-                // mb: "5",
               }}
             >
               <TextField
                 fullWidth
                 margin="dense"
-                sx={{ fontSize: 200, width: 560, mt: 3 }}
+                sx={{ width: 630, mt: 1 }}
                 variant="standard"
                 placeholder="New post title here..."
                 inputProps={{ style: { fontSize: 40 } }} // font size of input text
@@ -318,7 +312,7 @@ const CreatePost = (props) => {
               />
             </Box>
             <div>
-              <FormControl variant="outlined" sx={{ width: 500, mt: 3 }}>
+              <FormControl variant="outlined" sx={{ width: 400, mt: 1 }}>
                 <Select
                   multiple
                   displayEmpty
@@ -329,7 +323,7 @@ const CreatePost = (props) => {
                   onChange={handleTagChange}
                   renderValue={(selected) => {
                     if (selected.length === 0) {
-                      return <em>add upto 4 tags</em>;
+                      return <em>Add upto 4 tags</em>;
                     }
 
                     return selected.join(", ");
@@ -338,7 +332,7 @@ const CreatePost = (props) => {
                   inputProps={{ "aria-label": "Without label" }}
                 >
                   <MenuItem disabled value="">
-                    <em>add upto 4 tags</em>
+                    <em>Add upto 4 tags</em>
                   </MenuItem>
                   {tagNames.map((name) => (
                     <MenuItem
@@ -352,16 +346,16 @@ const CreatePost = (props) => {
                 </Select>
               </FormControl>
             </div>
-            <Box>
+            <Box mt={8}>
               <TextareaAutosize
-                maxRows={20}
-                // rows={5}
+                maxRows={6}
                 placeholder="Write your post content here..."
                 style={{
-                  width: 560,
-                  overflow: "hidden",
+                  width: 630,
+                  height: 150,
                   padding: 5,
                   marginTop: 20,
+                  backgroundColor: "#e4e1e1",
                 }}
                 id="content_input"
                 value={content}
@@ -369,17 +363,15 @@ const CreatePost = (props) => {
               />
             </Box>
           </CardContent>
-
-          {/* </Container> */}
         </div>
         <div className="fotter_btns">
-          <Box ml={3.3}>
+          <Box>
             {postId ? (
               <Button variant="contained" onClick={handleUpdate}>
                 update
               </Button>
             ) : (
-              <Button variant="contained" onClick={handlePublish}>
+              <Button variant="contained" sx={{}} onClick={handlePublish}>
                 Publish
               </Button>
             )}

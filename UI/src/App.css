@@ -1,10 +1,11 @@
 * {
   margin: 0;
   padding: 0;
-  /* background-color: #beb9b9; */
 }
 body {
-  /* background-color: #eeebeb; */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
 }
 .nav-container-one {
   display: flex;
@@ -274,17 +275,6 @@ p {
   cursor: pointer;
 }
 
-/* create post */
-/* .create_Post_Body {
-  width: 712px;
-  height: auto;
-  background: #ffffff;
-  border: 5px solid #cacaca;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-} */
 .coverImageCointainer {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
@@ -343,18 +333,10 @@ p {
 }
 .fotter_btns {
   width: 712px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 390px;
+
   margin-top: 10px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }
-
-.fotter_btns > button {
-  margin-right: 3px;
-}
-
 .title_input {
   font-size: 2.5rem !important;
 }
@@ -364,8 +346,6 @@ textarea {
   border: none;
   font-size: 1.3rem;
   overflow: inherit;
-
-  /* padding: 40px; */
 }
 .tag_container > InputLabel {
   padding: 10px;
@@ -423,7 +403,10 @@ textarea {
 }
 .create_post_main {
   width: 100%;
-  /* background-color: #beb9b9; */
+  height: 100vh;
+  background-color: #e4e1e1;
+  padding: 10px;
+  overflow: hidden;
 }
 .header {
   max-width: 100vw;
@@ -435,8 +418,15 @@ textarea {
   align-items: center;
 }
 .main_card {
-  max-width: 600px;
+  max-width: 680px;
+  height: 480px;
   margin: auto;
-  background-color: #cac1c1;
-  padding: 30px;
+  background-color: #ffffff;
+  padding: 40px;
+}
+* {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
 }
