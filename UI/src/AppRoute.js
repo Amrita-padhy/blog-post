@@ -8,6 +8,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import CreatePost from "./pages/CreatePost";
 import ProfilePage from "./pages/ProfilePage.js";
 import DetailsPage from "./pages/DetailsPage";
+import ReadingListPage from "./pages/ReadingListPage";
 // import Navbar from './components/Navbar';
 
 function AppRoute() {
@@ -22,6 +23,7 @@ function AppRoute() {
         <Route path="/create-post/:postId" element={<CreatePost />}></Route>
         <Route path="/profile-page" element={<ProfilePage />}></Route>
         <Route path="/details-page/:postId" element={<DetailsPage />}></Route>
+        <Route path="/reading-list" element={<ReadingListPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

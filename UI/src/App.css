@@ -430,3 +430,25 @@ textarea {
 ::-webkit-scrollbar {
   display: none;
 }
+.readingList_main {
+  background-color: #f7f4f4;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  /* margin-left: 40px; */
+}
+.readingList_body {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+.redingList_card {
+  width: 1000px;
+  height: 250px;
+  background-color: #ffffff;
+}
+.allTags {
+  background-color: #ffffff;
+  padding: 10px;
+  margin-left: 4.7px;
+}

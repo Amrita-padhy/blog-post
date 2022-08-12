@@ -29,7 +29,7 @@ const Sidebar = () => {
       <div className="side_bar" style={pointer}>
         <List sx={style} component="nav" aria-label="mailbox folders">
           <ListItem button>
-            <a href="goggle.com" className="sidebar_link">
+            <a href="/" className="sidebar_link">
               <span>
                 <HomeIcon />
               </span>
@@ -37,7 +37,7 @@ const Sidebar = () => {
             </a>
           </ListItem>
           <ListItem button>
-            <a href="goggle.com" className="sidebar_link">
+            <a href="/reading-list" className="sidebar_link">
               <span>
                 <AutoStoriesIcon />
               </span>
