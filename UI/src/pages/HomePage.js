@@ -37,6 +37,7 @@ const Home = () => {
         const list = snapshot.docs.map((post) => ({
           ...post.data(),
           postId: post.id,
+          // key={post.id}
         }));
         console.log(list);
         setPostList(list);
