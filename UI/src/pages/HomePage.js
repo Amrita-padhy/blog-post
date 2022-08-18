@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import Card from "../components/card";
+import Cards from "../components/Cards";
 import Adds from "../components/adds";
 import { collection, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../util/firebase";
@@ -47,13 +47,13 @@ const Home = () => {
 
   return (
     <div>
-      {/* nav bar */} <Navbar />
+      <Navbar />
       <div className="layOut">
-        {/* side bar */} <Sidebar />
+        <Sidebar />
         {loading ? (
           <div className="cards">
             {postList.map((item) => (
-              <Card
+              <Cards
                 key={item.id}
                 title={item.title}
                 tag={item.tags}
@@ -65,7 +65,7 @@ const Home = () => {
         ) : (
           <Skeleton variant="rectangular" width={210} height={118} />
         )}
-        {/* adds */} <Adds />
+        <Adds />
       </div>
     </div>
   );
