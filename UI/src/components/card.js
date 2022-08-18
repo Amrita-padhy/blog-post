@@ -70,7 +70,7 @@ const Cards = ({ title, tag, image, postId }) => {
                       key={eachTag.id}
                       className="tag-1"
                     >
-                      #{eachTag}
+                      # {eachTag}
                     </button>
                   ))}
                 </div>

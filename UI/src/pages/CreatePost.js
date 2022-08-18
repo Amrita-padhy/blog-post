@@ -21,6 +21,7 @@ import Backdrop from "@mui/material/Backdrop";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
+import { postRequest } from "../axios";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -142,17 +143,11 @@ const CreatePost = (props) => {
       const payload = {
         content,
         title,
-        createdAt: new Date(),
-        isPublished: true,
         tags,
         uid: currentUser?.uid,
-        coverImage: await uplodeImage(),
-        updatedAt: new Date(),
+        coverImage: await uplodeImage()
       };
-      await addDoc(collection(db, "postList"), payload);
-      setTitle("");
-      setContent("");
-      setTags([]);
+      await postRequest('/savePost', payload);
       setOpenBackdrop(false);
       navigate("/");
     } catch (error) {

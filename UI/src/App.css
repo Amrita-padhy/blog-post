@@ -191,7 +191,6 @@ p {
 }
 .tag-1:hover {
   background-color: rgba(221, 219, 219, 0.5);
-  border: 0.5px solid #9d9d9d;
   color: #000000;
 }
 .btn > button {

@@ -1,20 +1,16 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const cors = require("cors")({ origin: true });
+const cors = require("cors")({ origin: true })
+var serviceAccount = require("./serviceAccountKey.json");
 
-let firebaseConfig = {
-  apiKey: "AIzaSyBrHC_yghDNy7TptRJ_ADD6bL8A2FbvAb8",
-  authDomain: "react-demo-e1d88.firebaseapp.com",
-  projectId: "react-demo-e1d88",
-  storageBucket: "react-demo-e1d88.appspot.com",
-  messagingSenderId: "794527527422",
-  appId: "1:794527527422:web:9ed8e896ff6f385d9e90af",
-  measurementId: "G-BC6ZMW3TQL",
-};
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
-admin.initializeApp(firebaseConfig);
+
 const db = admin.firestore();
 db.settings({ ignoreUndefinedProperties: true })
+
 
 exports.register = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
@@ -36,13 +32,13 @@ exports.register = functions.https.onRequest(async (req, res) => {
     }
   });
 });
-// post API
+
 exports.getPostList = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     try {
       const postListRef = await db.collection('postList').get()
       const list = postListRef.docChanges().map(i => ({ ...i.doc.data(), postId: i.doc.id }))
-      res.status(200).send({ data: list, status: 'success' })
+      res.status(200).send(list)
       return
     } catch (error) {
       res.status(200).send({ message: error.message, status: false });
@@ -106,11 +102,10 @@ exports.getUserReadingList = functions.https.onRequest(async (req, res) => {
   })
 })
 
-// user API
 exports.getUsers = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     try {
-      const usersRef = await db.collection('postList').get()
+      const usersRef = await db.collection('users').get()
       const usersList = usersRef.docChanges().map(i => ({ ...i.doc.data(), userId: i.doc.id }))
       res.send(usersList);
       return

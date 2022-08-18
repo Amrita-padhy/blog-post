@@ -26,9 +26,10 @@ const app = initializeApp(firebaseConfig);
 export const fireBaseAuth = getAuth(app);
 const db = getFirestore(app)
 
+const baseApi = 'https://us-central1-react-demo-e1d88.cloudfunctions.net' 
 // console.log(db);
 export {
-  db
+  db, baseApi
 }
 export const storage = getStorage(app)
 console.log(storage);
