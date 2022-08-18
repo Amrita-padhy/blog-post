@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import Card from "../components/card";
+import Cards from "../components/Cards";
 import Adds from "../components/adds";
 
 import Skeleton from "@mui/material/Skeleton";
@@ -35,7 +35,7 @@ const Home = () => {
         {!loading ? (
           <div className="cards">
             {postList.map((item) => (
-              <Card
+              <Cards
                 key={item.id}
                 title={item.title}
                 tag={item.tags}

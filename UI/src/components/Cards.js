@@ -36,7 +36,7 @@ const Cards = ({ title, tag, image, postId }) => {
   return (
     <>
       <div className="card_container">
-        <Card sx={{ maxWidth: 625 }} style={pointer} onClick={openDetailPage}>
+        <Card style={pointer} onClick={openDetailPage}>
           <div className="cardWithImage">
             {image ? (
               <CardMedia
@@ -63,7 +63,7 @@ const Cards = ({ title, tag, image, postId }) => {
                 >
                   {title}
                 </Typography>
-                <div>
+                {/* <div>
                   {tag.map((eachTag) => (
                     <button
                       variant="outlined"
@@ -73,7 +73,7 @@ const Cards = ({ title, tag, image, postId }) => {
                       # {eachTag}
                     </button>
                   ))}
-                </div>
+                </div> */}
               </CardContent>
               <div className="card_fotter">
                 <div className="like_comment">
