@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const axiosClient = axios.create();
 
-// axiosClient.defaults.baseURL = 'https://us-central1-react-demo-e1d88.cloudfunctions.net';
-axiosClient.defaults.baseURL = 'http://localhost:5001/react-demo-e1d88/us-central1';
+axiosClient.defaults.baseURL = 'https://us-central1-react-demo-e1d88.cloudfunctions.net';
+// axiosClient.defaults.baseURL = 'http://localhost:5001/react-demo-e1d88/us-central1';
 
 export const getRequest = (url) => {
     return axiosClient.get(url);

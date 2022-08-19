@@ -13,10 +13,8 @@ import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import { grey } from "@mui/material/colors";
-import Skeleton from "@mui/material/Skeleton";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
-import Chip from "@mui/material/Chip";
 const Cards = ({ title, tag, image, postId }) => {
   let [saveBtn, setSaveBtn] = useState(false);
 
