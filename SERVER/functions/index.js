@@ -53,6 +53,7 @@ exports.savePost = functions.https.onRequest(async (req, res) => {
       const { content, coverImage, tags, title, uid } = req.body
       const payload = {
         content, coverImage, tags, title, uid,
+        isReadingList: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       }
@@ -102,13 +103,30 @@ exports.updatePost = functions.https.onRequest(async (req, res) => {
   })
 })
 
+exports.saveForReading = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    try {
+      const { postId, isReadingList } = req.body
+      const payload = {
+        isReadingList,
+        updatedAt: new Date(),
+      }
+      await db.collection('postList').doc(postId).set(payload, { merge: true })
+      res.status(200).send({ postId, status: 200 })
+      return
+    } catch (error) {
+      res.status(500).send({ message: error.message, status: 500 })
+    }
+  })
+})
+
 exports.getUserReadingList = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     try {
       const { uid } = req.body
       const listRef = await db.collection('postList').where("uid", "==", uid).where("isReadingList", "==", true).get()
       const readingList = listRef.docChanges().map(i => ({ ...i.doc.data(), postId: i.doc.id }))
-      res.status(200).send({ data: readingList, status: '200' });
+      res.status(200).send(readingList);
       return
     } catch (error) {
       res.status(500).send({ message: error.message, status: 500 })
@@ -136,7 +154,7 @@ exports.getUserInfo = functions.https.onRequest(async (req, res) => {
       const userRef = await db.collection('users').doc(uid).get()
       if (userRef.exists) {
         const user = userRef.data();
-        res.status(200).send({ data: user, status: '200' });
+        res.status(200).send(user);
       }
     } catch (error) {
       res.status(500).send({ message: error.message, status: 500 })
@@ -147,9 +165,9 @@ exports.getUserInfo = functions.https.onRequest(async (req, res) => {
 exports.updateUserInfo = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     try {
-      const { uid, userName, email, displayPicture, bio } = req.body
+      const { uid, userName, displayPicture, bio } = req.body
       await db.collection('users').doc(uid)
-        .set({ userName, email, displayPicture, bio }, { merge: true })
+        .set({ userName, displayPicture, bio }, { merge: true })
       res.status(200).send({ uid, status: 200 })
     } catch (error) {
       res.status(500).send({ message: error.message, status: 500 })
