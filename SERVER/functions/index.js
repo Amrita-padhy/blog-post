@@ -71,10 +71,24 @@ exports.savePost = functions.https.onRequest(async (req, res) => {
   })
 })
 
+exports.getPost = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    try {
+      const { postId } = req.body
+
+      const r = await db.collection('postList').doc(postId).get()
+      res.status(200).send({ ...r.data(), postId })
+      return
+    } catch (error) {
+      res.status(500).send({ message: error.message, status: 500 })
+    }
+  })
+})
+
 exports.updatePost = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     try {
-      const { content, tags, title, postId, isReadingList } = req.body
+      const { content, tags, title, postId } = req.body
       const payload = {
         content, tags, title, isReadingList,
         updatedAt: new Date(),
