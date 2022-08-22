@@ -90,7 +90,7 @@ exports.updatePost = functions.https.onRequest(async (req, res) => {
     try {
       const { content, tags, title, postId } = req.body
       const payload = {
-        content, tags, title, isReadingList,
+        content, tags, title,
         updatedAt: new Date(),
       }
       await db.collection('postList').doc(postId).set(payload, { merge: true })
