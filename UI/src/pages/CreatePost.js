@@ -22,6 +22,8 @@ import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import { postRequest } from "../axios";
+import { patchRequest } from "../axios";
+import { async } from "@firebase/util";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -45,7 +47,7 @@ function getStyles(name, tags, theme) {
   };
 }
 
-const CreatePost = (props) => {
+const CreatePost = () => {
   const { postId } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -70,40 +72,67 @@ const CreatePost = (props) => {
     setUploadimage(e.target.files[0]);
     setPreviewImage(URL.createObjectURL(e.target.files[0]));
   }
-
-  useEffect(() => {
-    console.log(postId ? "Please Edit" : "New Post");
-    if (postId) {
-      (async () => {
-        const docRef = doc(db, "postList", postId);
-        const docSpan = getDoc(docRef);
-        if ((await docSpan).exists()) {
-          // if we get data
-          const postData = (await docSpan).data(); // save data in the variable
-          // console.log(postData);
-          setTitle(postData.title); // set post title
-          setContent(postData.content); //set post content
-          setTags(postData.tags);
-          setPreviewImage(postData.coverImage);
-          setUploadimage(postData.coverImage);
-        }
-      })();
-    }
-  }, []);
-  // handleUpdate
-  // const postData = (await docSpan).data();
-  const handleUpdate = async () => {
+  // in handlePublish fun we call a postRequest Api ,so whenever we click a publish button  data will be post in home page
+  const handlePublish = async (e) => {
     try {
+      e.preventDefault();
+      if (!title || !content) {
+        setSnackbarOpen(true);
+        return;
+      }
+      // open loading
       setOpenBackdrop(true);
-      let item = { title, content, tags, uploadImage };
-      const docRef = doc(db, "postList", postId);
-      await setDoc(docRef, { ...item, updatedAt: new Date() }, { merge: true });
+      const payload = {
+        content,
+        title,
+        tags,
+        uid: currentUser?.uid,
+        coverImage: await uplodeImage(),
+      };
+      await postRequest("/savePost", payload);
       setOpenBackdrop(false);
       navigate("/");
     } catch (error) {
+      // close loading
       setOpenBackdrop(false);
     }
   };
+  //  in handleUpdate fun we call a postRequest Api ,so whenever we click a update button new data will be updated in home page
+  const handleUpdate = async () => {
+    try {
+      setOpenBackdrop(true);
+      let item = { title, content, tags, postId };
+
+      await postRequest("/updatePost", item);
+      navigate("/");
+    } catch (error) {
+      setOpenBackdrop(false);
+      console.log(error.message);
+    }
+  };
+  // in getPostDetails fun we call a postRequest Api ,so whenever page loads the fun is called and we get data and after getting data ,set the data in different veriables
+  const getPostDetails = async () => {
+    try {
+      const { data } = await postRequest("/getPost", { postId });
+      console.log(data);
+      setTitle(data.title); // set post title
+      setContent(data.content); //set post content
+      setTags(data.tags);
+      if (data?.coverImage) {
+        setPreviewImage(data?.coverImage);
+      }
+      setOpenBackdrop(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      if (postId) {
+        await getPostDetails();
+      }
+    })();
+  }, []);
 
   const handleBackdropClose = () => {
     setOpenBackdrop(false);
@@ -128,31 +157,6 @@ const CreatePost = (props) => {
     }
     if (e.target.id === "tag_id") {
       setTags(e.target.value);
-    }
-  };
-  // handlepublish
-  const handlePublish = async (e) => {
-    try {
-      e.preventDefault();
-      if (!title || !content) {
-        setSnackbarOpen(true);
-        return;
-      }
-      // open loading
-      setOpenBackdrop(true);
-      const payload = {
-        content,
-        title,
-        tags,
-        uid: currentUser?.uid,
-        coverImage: await uplodeImage(),
-      };
-      await postRequest("/savePost", payload);
-      setOpenBackdrop(false);
-      navigate("/");
-    } catch (error) {
-      // close loading
-      setOpenBackdrop(false);
     }
   };
 
@@ -265,7 +269,7 @@ const CreatePost = (props) => {
             }}
           >
             <div className="previed_main">
-              {file && !postId ? (
+              {file ? (
                 <div className="previewedImage_container">
                   <Box
                     sx={{
@@ -275,24 +279,36 @@ const CreatePost = (props) => {
                     }}
                   >
                     <img src={file} width={150} height={100} />
-                    <Box sx={{ ml: 3 }}>
-                      <label className="uplodeImageLevel">
-                        <input
-                          type="file"
-                          onChange={handlePreviewImage}
-                          hidden
-                        />
-                        change
-                      </label>
-                    </Box>
 
-                    <Button
-                      variant="contained"
-                      sx={{ ml: 3 }}
-                      onClick={removePreviedImage}
-                    >
-                      remove
-                    </Button>
+                    {!postId ? (
+                      <Box
+                        className="btnConatiner"
+                        sx={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Box sx={{ ml: 3 }}>
+                          <label className="uplodeImageLevel">
+                            <input
+                              type="file"
+                              onChange={handlePreviewImage}
+                              hidden
+                            />
+                            change
+                          </label>
+                        </Box>
+
+                        <Button
+                          variant="contained"
+                          sx={{ ml: 3 }}
+                          onClick={removePreviedImage}
+                        >
+                          remove
+                        </Button>
+                      </Box>
+                    ) : null}
                   </Box>
                 </div>
               ) : (

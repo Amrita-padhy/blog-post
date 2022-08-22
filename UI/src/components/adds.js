@@ -1,13 +1,11 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import Box from "@mui/material/Box";
 
 const Root = styled("div")(({ theme }) => ({
   width: "100%",
@@ -24,13 +22,19 @@ const Adds = () => {
    Sed malesuada lobortis pretium.`}
     </div>
   );
-  const pointer = { cursor: "pointer" };
+  const pointer = {
+    cursor: "pointer",
+  };
 
   return (
     <>
       <main className="adds_container" style={pointer}>
         <div className="add_header">
-          <Card sx={{ maxWidth: 345 }}>
+          <Card
+            sx={{
+              maxWidth: 345,
+            }}
+          >
             <CardMedia
               className="img_container"
               width="240"
@@ -48,21 +52,24 @@ const Adds = () => {
         </div>
         <div className="add_contents">
           <div className="add_contents_btns">
-            <Typography sx={{ padding: 0.1 }} variant="h6" component="div">
+            <Typography
+              sx={{
+                padding: 0.1,
+              }}
+              variant="h6"
+              component="div"
+            >
               Listings
             </Typography>
-            <button className="see_all">see all</button>
+            <button className="see_all"> see all </button>
           </div>
-          <div className="add_contents_headings">
+          <Box p={2} className="add_contents_headings">
             <Root>
-              {content}
-              <Divider textAlign="left">LEFT</Divider>
-              {content}
-              <Divider textAlign="left">LEFT</Divider>
-              {content}
-              <Divider textAlign="left">LEFT</Divider>
+              {content} <Divider textAlign="left"> LEFT </Divider> {content}
+              <Divider textAlign="left"> LEFT </Divider> {content}
+              <Divider textAlign="left"> LEFT </Divider>
             </Root>
-          </div>
+          </Box>
         </div>
       </main>
     </>

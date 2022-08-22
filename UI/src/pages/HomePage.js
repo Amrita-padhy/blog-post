@@ -45,7 +45,12 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <Skeleton variant="rectangular" width={625} height={118} />
+          <Skeleton
+            variant="rectangular"
+            sx={{ mt: 10 }}
+            width={625}
+            height={455}
+          />
         )}
         <Adds />
       </div>

@@ -61,7 +61,7 @@ const Cards = ({ title, tag, image, postId }) => {
                 >
                   {title}
                 </Typography>
-                {/* <div>
+                <div>
                   {tag.map((eachTag) => (
                     <button
                       variant="outlined"
@@ -71,7 +71,7 @@ const Cards = ({ title, tag, image, postId }) => {
                       # {eachTag}
                     </button>
                   ))}
-                </div> */}
+                </div>
               </CardContent>
               <div className="card_fotter">
                 <div className="like_comment">

@@ -18,8 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../util/firebase";
+import { postRequest } from "../axios";
 
 function DetailsPage() {
   const { postId } = useParams();
@@ -32,12 +31,21 @@ function DetailsPage() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // to show the card details in details page we call a postRequest Api ,after getting data set the data in veriables
+  const getPostDetails = async () => {
+    try {
+      const { data } = await postRequest("/getPost", { postId });
+      console.log(data);
+
+      setPost(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
-      const docRef = doc(db, "postList", postId);
-      const docSpan = getDoc(docRef);
-      setPost((await docSpan).data());
+      await getPostDetails();
     })();
   }, []);
 
@@ -60,7 +68,6 @@ function DetailsPage() {
   return (
     <>
       <div>
-        {/* navbar */}
         <Navbar />
       </div>
       <div className="detailPage_main">
@@ -139,7 +146,7 @@ function DetailsPage() {
           </Menu>
         </div>
         <div className="main_section">
-          <Card sx={{ maxWidth: 800 }}>
+          <Card sx={{ maxWidth: 800, width: 625 }}>
             <CardMedia
               component="img"
               alt="green iguana"
@@ -166,7 +173,11 @@ function DetailsPage() {
                   {post?.title}
                 </Typography>
                 {post?.tags.map((eachTag) => (
-                  <button color="inherit" key={eachTag.id} className="tag-1">
+                  <button
+                    color="inherit"
+                    key={eachTag.postId}
+                    className="tag-1"
+                  >
                     #{eachTag}
                   </button>
                 ))}
