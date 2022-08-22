@@ -145,9 +145,9 @@ const CreatePost = (props) => {
         title,
         tags,
         uid: currentUser?.uid,
-        coverImage: await uplodeImage()
+        coverImage: await uplodeImage(),
       };
-      await postRequest('/savePost', payload);
+      await postRequest("/savePost", payload);
       setOpenBackdrop(false);
       navigate("/");
     } catch (error) {
@@ -229,8 +229,14 @@ const CreatePost = (props) => {
         />
       </div>
       <div className="create_post_main">
-        <Container maxWidth="lg" sx={{ display: "flex" }}>
-          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+        <Container maxWidth="lg" sx={{ display: "flex", mt: 1, p: 1 }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <img
               src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
               alt="blog_post"
@@ -259,22 +265,32 @@ const CreatePost = (props) => {
             }}
           >
             <div className="previed_main">
-              {file ? (
+              {file && !postId ? (
                 <div className="previewedImage_container">
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-around",
+                      justifyContent: "flex-start",
                       alignItems: "center",
                     }}
                   >
                     <img src={file} width={150} height={100} />
+                    <Box sx={{ ml: 3 }}>
+                      <label className="uplodeImageLevel">
+                        <input
+                          type="file"
+                          onChange={handlePreviewImage}
+                          hidden
+                        />
+                        change
+                      </label>
+                    </Box>
 
-                    <label className="uplodeImageLevel">
-                      <input type="file" onChange={handlePreviewImage} hidden />
-                      change
-                    </label>
-                    <Button variant="contained" onClick={removePreviedImage}>
+                    <Button
+                      variant="contained"
+                      sx={{ ml: 3 }}
+                      onClick={removePreviedImage}
+                    >
                       remove
                     </Button>
                   </Box>
@@ -341,15 +357,15 @@ const CreatePost = (props) => {
                 </Select>
               </FormControl>
             </div>
-            <Box mt={8}>
+            <Box mt={5}>
               <TextareaAutosize
                 maxRows={6}
                 placeholder="Write your post content here..."
                 style={{
                   width: 630,
-                  height: 150,
+                  height: 100,
                   padding: 5,
-                  marginTop: 20,
+                  // marginTop: 20,
                   backgroundColor: "#e4e1e1",
                 }}
                 id="content_input"
@@ -357,21 +373,20 @@ const CreatePost = (props) => {
                 onChange={handleInputChange}
               />
             </Box>
+            <Box mt={5}>
+              {postId ? (
+                <Button variant="contained" onClick={handleUpdate}>
+                  update
+                </Button>
+              ) : (
+                <Button variant="contained" sx={{}} onClick={handlePublish}>
+                  Publish
+                </Button>
+              )}
+            </Box>
           </CardContent>
         </div>
-        <div className="fotter_btns">
-          <Box>
-            {postId ? (
-              <Button variant="contained" onClick={handleUpdate}>
-                update
-              </Button>
-            ) : (
-              <Button variant="contained" sx={{}} onClick={handlePublish}>
-                Publish
-              </Button>
-            )}
-          </Box>
-        </div>
+        <div className="fotter_btns"></div>
       </div>
     </>
   );

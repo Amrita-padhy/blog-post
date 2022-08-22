@@ -9,8 +9,6 @@ import CreatePost from "./pages/CreatePost";
 import ProfilePage from "./pages/ProfilePage.js";
 import DetailsPage from "./pages/DetailsPage";
 import ReadingListPage from "./pages/ReadingListPage";
-// import Navbar from './components/Navbar';
-
 function AppRoute() {
   return (
     <BrowserRouter>
