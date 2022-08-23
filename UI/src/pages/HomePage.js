@@ -6,12 +6,12 @@ import Cards from "../components/Cards";
 import Adds from "../components/adds";
 
 import Skeleton from "@mui/material/Skeleton";
-import { getRequest } from "../axios";
+import { getRequest, postRequest } from "../axios";
 
 const Home = () => {
   const [postList, setPostList] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  console.log(postList);
   const getPostList = async () => {
     try {
       setLoading(true);
@@ -21,6 +21,20 @@ const Home = () => {
     } catch (error) {
       setLoading(false);
     }
+  };
+
+  const handleSavePost = async (postId, isReadingList) => {
+    try {
+      const payload = {
+        postId,
+        isReadingList: !isReadingList,
+      };
+      const res = await postRequest("saveForReading", payload);
+      console.log(res.data);
+      if (res) {
+        await getPostList();
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -36,11 +50,13 @@ const Home = () => {
           <div className="cards">
             {postList.map((item) => (
               <Cards
-                key={item.id}
+                key={item.postId}
                 title={item.title}
                 tag={item.tags}
                 image={item.coverImage}
                 postId={item.postId}
+                isReadingList={item.isReadingList}
+                handleSavePost={handleSavePost}
               />
             ))}
           </div>

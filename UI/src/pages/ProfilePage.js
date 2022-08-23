@@ -119,7 +119,7 @@ function ProfilePage() {
           </Card>
         </Container>
         <Container maxWidth="md">
-          <Cards />
+          <Cards tag={[]} />
         </Container>
       </div>
       <div className="editProfile_modal">

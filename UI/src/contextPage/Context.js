@@ -19,13 +19,7 @@ const AuthContext = createContext({
   handleAuthErrorMsg: () => Promise,
   // postCollectionRef,
 });
-// import {
-//   collection,
-//   onSnapshot,
-//   doc,
-//   addDoc,
-//   deleteDoc,
-// } from "firebase/firestore";
+
 export const useAuth = () => useContext(AuthContext);
 // console.log(useAuth);
 
@@ -91,5 +85,7 @@ export default function AuthContextProvider({ children }) {
     // postCollectionRef,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}> {children} </AuthContext.Provider>
+  );
 }

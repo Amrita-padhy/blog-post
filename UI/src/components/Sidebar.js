@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 //
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -23,6 +25,7 @@ const Sidebar = () => {
     height: "auto",
   };
   const pointer = { cursor: "pointer" };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -37,7 +40,10 @@ const Sidebar = () => {
             </a>
           </ListItem>
           <ListItem button>
-            <a href="/reading-list" className="sidebar_link">
+            <a
+              onClick={() => navigate("/reading-list")}
+              className="sidebar_link"
+            >
               <span>
                 <AutoStoriesIcon />
               </span>

@@ -1,39 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { postRequest } from "../axios";
+import { useAuth } from "../contextPage/Context";
+import { fireBaseAuth } from "../util/firebase";
+import ReadingListCard from "../components/ReadingListCard";
+
 // mui
 import Container from "@mui/material/Container";
-import { useTheme } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 function ReadingListPage() {
-  const style = {
-    width: "100%",
-    maxWidth: 360,
-    // bgcolor: "#faf6f6",
-
-    height: "auto",
-    margin: 1,
-  };
+  const [readingLists, setReasingLists] = useState([]);
+  console.log(readingLists);
   const pointer = { cursor: "pointer" };
+
+  const readingList = async () => {
+    try {
+      const { data } = await postRequest("getUserReadingList", {
+        uid: fireBaseAuth.currentUser?.uid,
+      });
+      setReasingLists(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    readingList();
+  }, []);
   return (
     <div className="readingList_main" style={pointer}>
       <Container>
-        {/* navbar */}
         <Navbar />
       </Container>
       <Container maxWidth="lg">
@@ -45,16 +41,15 @@ function ReadingListPage() {
           Reading list (1)
         </Typography>
         <div className=" readingList_body">
-          <div className="redingList_card">
-            <CardHeader
-              avatar={
-                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                  R
-                </Avatar>
-              }
-              title="Shrimp and Chorizo Paella Shrimp and Chorizo Paella"
-              subheader="September 14, 2016"
-            />
+          <div className="redingList_cards">
+            {readingLists.map((item) => (
+              <ReadingListCard
+                key={item.postId}
+                title={item.title}
+                tag={item.tags}
+                postId={item.postId}
+              />
+            ))}
           </div>
         </div>
       </Container>

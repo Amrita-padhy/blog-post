@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { getRequest, postRequest } from "../axios";
 
 // mui
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -15,20 +16,19 @@ import Avatar from "@mui/material/Avatar";
 import { grey } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
-const Cards = ({ title, tag, image, postId }) => {
-  let [saveBtn, setSaveBtn] = useState(false);
-
+const Cards = ({
+  title,
+  tag,
+  image,
+  postId,
+  isReadingList,
+  handleSavePost,
+}) => {
   const navigate = useNavigate();
   const openDetailPage = (item) => {
-    console.log(postId);
     navigate(`/details-page/${postId}`);
   };
-  // handleBtnTextChange
-  function handleBtnTextChange(e) {
-    e.stopPropagation();
-    // !TODO  save page api call
-    setSaveBtn((saveBtn = !saveBtn));
-  }
+
   const pointer = { cursor: "pointer" };
 
   return (
@@ -63,11 +63,7 @@ const Cards = ({ title, tag, image, postId }) => {
                 </Typography>
                 <div>
                   {tag.map((eachTag) => (
-                    <button
-                      variant="outlined"
-                      key={eachTag.id}
-                      className="tag-1"
-                    >
+                    <button variant="outlined" key={eachTag} className="tag-1">
                       # {eachTag}
                     </button>
                   ))}
@@ -107,9 +103,12 @@ const Cards = ({ title, tag, image, postId }) => {
                     sx={{ bgcolor: grey[400] }}
                     color="inherit"
                     size="medium"
-                    onClick={handleBtnTextChange}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSavePost(postId, isReadingList);
+                    }}
                   >
-                    {saveBtn ? "Saved" : "Save"}
+                    {isReadingList ? "Saved" : "Save"}
                   </Button>
                 </div>
               </div>
