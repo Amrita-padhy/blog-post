@@ -6,7 +6,6 @@ import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
 import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -21,17 +20,13 @@ function ReadingListCard({ title, tag, postId }) {
           sx={{
             backgroundColor: "#fff",
             width: 824,
-            p: 2,
             display: "flex",
-            alignItems: "center",
-            // justifyContent: "center",
           }}
         >
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              p: 1,
             }}
           >
             <CardHeader
@@ -63,7 +58,6 @@ function ReadingListCard({ title, tag, postId }) {
               </div>
             </Box>
           </Box>
-          {/* </Card> */}
         </Container>
       </div>
     </>

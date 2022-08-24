@@ -17,7 +17,7 @@ import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Button from "@mui/material/Button";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, OutlinedInput, ThemeProvider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
 const Navbar = (props) => {
@@ -34,10 +34,9 @@ const Navbar = (props) => {
   // sign out
   const signOut = async (e) => {
     e.preventDefault();
+    console.log("test");
     await logout();
-    if (logout) {
-      navigate("/login");
-    }
+    navigate("/login");
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -131,32 +130,64 @@ const Navbar = (props) => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                  <Button
-                    color="inherit"
-                    variant="contained"
-                    onClick={() => navigate("/create-post")}
-                  >
-                    Create Post
-                  </Button>
-                  {currentUser && (
-                    <IconButton
-                      size="large"
-                      aria-label="show 17 new notifications"
-                      color="inherit"
-                    >
-                      <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
-                  )}
-                  {currentUser && (
-                    <IconButton
-                      size="small"
-                      sx={{ ml: 2 }}
-                      onClick={() => navigate("/profile-page")}
-                    >
-                      <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-                    </IconButton>
+                  {currentUser ? (
+                    <Box>
+                      <Button
+                        color="inherit"
+                        variant="contained"
+                        onClick={() => navigate("/create-post")}
+                      >
+                        Create Post
+                      </Button>
+                      <IconButton
+                        size="large"
+                        aria-label="show 17 new notifications"
+                        color="inherit"
+                        onClick={signOut}
+                      >
+                        <Badge badgeContent={17} color="error">
+                          <NotificationsIcon />
+                        </Badge>
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        sx={{ ml: 2 }}
+                        onClick={() => navigate("/profile-page")}
+                      >
+                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <Button
+                        color="inherit"
+                        variant="text"
+                        onClick={() => navigate("/login")}
+                        sx={{
+                          mr: 1,
+                          letterSpacing: 0.8,
+                          "&:hover": {
+                            color: "blue",
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        login
+                      </Button>
+                      <Button
+                        color="inherit"
+                        variant="outlined"
+                        onClick={() => navigate("/registration")}
+                        sx={{
+                          color: "blue",
+                          letterSpacing: 0.8,
+                          fontSize: 13,
+                          p: 1,
+                        }}
+                      >
+                        Create Account
+                      </Button>
+                    </Box>
                   )}
                 </Box>
               </Toolbar>

@@ -105,7 +105,7 @@ form > h2 {
   background-color: white;
   letter-spacing: 1px;
   cursor: pointer;
-  /* color: ; */
+  color: #0000000d;
 }
 
 .Register {
@@ -437,18 +437,18 @@ textarea {
   height: 100vh;
   padding: 20px;
 }
-.readingList_body {
+/* .readingList_body {
   display: flex;
   justify-content: space-between;
   padding: 20px;
-}
-.redingList_card {
+} */
+/* .redingList_card {
   width: 1000px;
   height: 250px;
   background-color: #ffffff;
   border-radius: 0.5rem;
   border: 1px solid rgb(201, 196, 196);
-}
+} */
 .allTags {
   background-color: #ffffff;
   padding: 10px;

@@ -36,7 +36,13 @@ function ReadingListPage() {
         <Typography
           variant="h5"
           color="black"
-          sx={{ ml: 3, fontSize: 30, fontWeight: "bold", letterSpacing: 1 }}
+          sx={{
+            ml: 20,
+            mb: 2,
+            fontSize: 30,
+            fontWeight: "bold",
+            letterSpacing: 1,
+          }}
         >
           Reading list (1)
         </Typography>
@@ -53,7 +59,6 @@ function ReadingListPage() {
           </div>
         </div>
       </Container>
-      <div className="adds"></div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contextPage/Context";
 
 //
 import List from "@mui/material/List";
@@ -14,10 +15,22 @@ import PodcastsIcon from "@mui/icons-material/Podcasts";
 import TagIcon from "@mui/icons-material/Tag";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import InfoIcon from "@mui/icons-material/Info";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import Badge from "@mui/material/Badge";
 import Divider from "@mui/material/Divider";
+import { Hidden } from "@mui/material";
 
 const Sidebar = () => {
+  const { currentUser } = useAuth();
+  // function
+
+  const checkAuth = () => {
+    if (currentUser) {
+      navigate("/reading-list");
+    } else {
+    }
+  };
+
   const style = {
     width: "100%",
     maxWidth: 360,
@@ -27,10 +40,17 @@ const Sidebar = () => {
   const pointer = { cursor: "pointer" };
   const navigate = useNavigate();
 
+  const handleNavigation = () => {
+    if (currentUser) {
+      navigate("/reading-list");
+      return;
+    }
+  };
+
   return (
     <>
       <div className="side_bar" style={pointer}>
-        <List sx={style} component="nav" aria-label="mailbox folders">
+        <List sx={style} component="div" aria-label="mailbox folders">
           <ListItem button>
             <a href="/" className="sidebar_link">
               <span>
@@ -39,17 +59,18 @@ const Sidebar = () => {
               Home
             </a>
           </ListItem>
-          <ListItem button>
-            <a
-              onClick={() => navigate("/reading-list")}
-              className="sidebar_link"
-            >
-              <span>
-                <AutoStoriesIcon />
-              </span>
-              Reading List
-            </a>
-          </ListItem>
+
+          {currentUser && (
+            <ListItem button>
+              <a onClick={handleNavigation} className="sidebar_link">
+                <span>
+                  <AutoStoriesIcon />
+                </span>
+                Reading List
+              </a>
+            </ListItem>
+          )}
+
           <ListItem button>
             <a href="goggle.com" className="sidebar_link">
               <span>
@@ -88,6 +109,14 @@ const Sidebar = () => {
                 <InfoIcon />
               </span>
               About
+            </a>
+          </ListItem>
+          <ListItem button>
+            <a href="goggle.com" className="sidebar_link">
+              <span>
+                <ContactSupportIcon />
+              </span>
+              Contact
             </a>
           </ListItem>
         </List>
