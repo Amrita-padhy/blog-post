@@ -9,6 +9,7 @@ import CreatePost from "./pages/CreatePost";
 import ProfilePage from "./pages/ProfilePage.js";
 import DetailsPage from "./pages/DetailsPage";
 import ReadingListPage from "./pages/ReadingListPage";
+import ProctedRoutes from "./components/ProctedRoutes";
 function AppRoute() {
   return (
     <BrowserRouter>
@@ -17,11 +18,19 @@ function AppRoute() {
         <Route path="/registration" element={<Regpage />}></Route>
         <Route exact path="/" element={<Home />}></Route>
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
-        <Route path="/create-post" element={<CreatePost />}></Route>
+        {/* <ProctedRoutes> */}
+        <Route path="/create-post" element={<ProctedRoutes />}>
+          <Route path="/create-post" element={<CreatePost />}></Route>
+        </Route>
+        {/* </ProctedRoutes> */}
         <Route path="/create-post/:postId" element={<CreatePost />}></Route>
         <Route path="/profile-page" element={<ProfilePage />}></Route>
         <Route path="/details-page/:postId" element={<DetailsPage />}></Route>
         <Route path="/reading-list" element={<ReadingListPage />}></Route>
+
+        <Route path="/reading-list" element={<ProctedRoutes />}>
+          <Route path="/reading-list" element={<ReadingListPage />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

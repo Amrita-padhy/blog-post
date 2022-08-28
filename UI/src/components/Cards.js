@@ -21,10 +21,9 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import CloseIcon from "@mui/icons-material/Close";
-
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 const style = {
   position: "absolute",
   top: "50%",
@@ -69,49 +68,50 @@ const Cards = ({
                 alt="coverImage"
               />
             ) : null}
+          </div>
 
-            <CardHeader
-              avatar={<Avatar aria-label="recipe">R</Avatar>}
-              title="Shrimp and Chorizo Paella"
-              subheader="September 14, 2016"
-            />
-            <div className="card_body">
-              <CardContent>
-                <Typography
-                  color="text.primary"
-                  gutterBottom
-                  variant="h5"
-                  component="div"
+          <CardHeader
+            avatar={<Avatar aria-label="recipe">R</Avatar>}
+            title="Shrimp and Chorizo Paella"
+            subheader="September 14, 2016"
+          />
+          <div className="card_body">
+            <CardContent>
+              <Typography
+                color="text.primary"
+                gutterBottom
+                variant="h5"
+                component="div"
+              >
+                {title}
+              </Typography>
+              <div>
+                {tag.map((eachTag) => (
+                  <button variant="outlined" key={eachTag} className="tag-1">
+                    # {eachTag}
+                  </button>
+                ))}
+              </div>
+            </CardContent>
+            <div className="card_fotter">
+              <div className="like_comment">
+                <Button
+                  size="small"
+                  color="inherit"
+                  startIcon={<FavoriteBorderIcon fontSize="inherit" />}
                 >
-                  {title}
-                </Typography>
+                  571 reactions
+                </Button>
+                <Button
+                  size="small"
+                  color="inherit"
+                  startIcon={<ChatBubbleOutlineIcon fontSize="inherit" />}
+                >
+                  5 comments
+                </Button>
+              </div>
+              {currentUser && (
                 <div>
-                  {tag.map((eachTag) => (
-                    <button variant="outlined" key={eachTag} className="tag-1">
-                      # {eachTag}
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-              <div className="card_fotter">
-                <div className="like_comment">
-                  <Button
-                    size="small"
-                    color="inherit"
-                    startIcon={<FavoriteBorderIcon fontSize="inherit" />}
-                  >
-                    571 reactions
-                  </Button>
-                  <Button
-                    size="small"
-                    color="inherit"
-                    startIcon={<ChatBubbleOutlineIcon fontSize="inherit" />}
-                  >
-                    5 comments
-                  </Button>
-                </div>
-
-                <div className="btn">
                   <IconButton
                     aria-label="edit"
                     size="medium"
@@ -123,25 +123,34 @@ const Cards = ({
                   >
                     <EditIcon />
                   </IconButton>
+
                   <Button
-                    sx={{ bgcolor: grey[400] }}
+                    sx={{
+                      "&:hover": {
+                        color: "blue",
+                        backgroundColor: "grey[700]",
+                      },
+                    }}
                     color="inherit"
                     size="medium"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (!currentUser) {
                         handleOpen();
-
                         return;
                       }
 
                       handleSavePost(postId, isReadingList);
                     }}
                   >
-                    {isReadingList ? "Saved" : "Save"}
+                    {isReadingList ? (
+                      <BookmarkIcon size="small" />
+                    ) : (
+                      <BookmarkBorderIcon size="small" />
+                    )}
                   </Button>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </Card>
